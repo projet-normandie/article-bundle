@@ -6,7 +6,9 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
+use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use ApiPlatform\Core\Annotation\ApiResource;
+use Eko\FeedBundle\Item\Writer\ItemInterface;
 
 /**
  * Article
@@ -17,10 +19,12 @@ use ApiPlatform\Core\Annotation\ApiResource;
  * @ApiResource(attributes={"order"={"id": "DESC"}})
  *
  */
-class Article
+class Article implements ItemInterface
 {
     use Timestampable;
     use Translatable;
+    use Sluggable;
+
 
     const STATUS_UNDER_CONSTRUCTION= 'UNDER CONSTRUCTION';
     const STATUS_PUBLISHED = 'PUBLISHED';
@@ -42,6 +46,13 @@ class Article
      * @ORM\Column(name="status", type="string", nullable=false)
      */
     private $status = self::STATUS_UNDER_CONSTRUCTION;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="link", type="string", nullable=true)
+     */
+    private $link;
 
     /**
      * @var UserInterface
@@ -114,6 +125,29 @@ class Article
     public function getStatus()
     {
         return $this->status;
+    }
+
+    /**
+     * Set link
+     *
+     * @param string $link
+     * @return string
+     */
+    public function setLink($link)
+    {
+        $this->link = $link;
+
+        return $this;
+    }
+
+    /**
+     * Get link
+     *
+     * @return string
+     */
+    public function getLink()
+    {
+        return $this->link;
     }
 
     /**
@@ -206,5 +240,45 @@ class Article
             self::STATUS_PUBLISHED => self::STATUS_PUBLISHED,
             self::STATUS_CANCELED => self::STATUS_CANCELED
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemTitle()
+    {
+        return $this->getTitle();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemDescription()
+    {
+        return $this->getText();
+    }
+
+    /**
+     * @return \DateTime
+     */
+    public function getFeedItemPubDate() {
+        return $this->getPublishedAt();
+    }
+
+    /**
+     * @return string
+     */
+    public function getFeedItemLink() {
+        return $this->getLink();
+    }
+
+    /**
+     * Returns an array of the fields used to generate the slug.
+     *
+     * @return array
+     */
+    public function getSluggableFields()
+    {
+        return ['title'];
     }
 }
