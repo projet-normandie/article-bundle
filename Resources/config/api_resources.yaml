@@ -1,0 +1,9 @@
+resources:
+    ProjetNormandie\ArticleBundle\Entity\Article:
+      collectionOperations:
+          get:
+              normalization_context: {'groups': [article_read]}
+              filters : ['article.filters']
+      itemOperations:
+          get:
+              normalization_context: {'groups': [article_read]}

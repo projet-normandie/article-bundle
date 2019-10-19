@@ -1,0 +1,9 @@
+App\Entity\User:
+  attributes:
+    id:
+      groups:
+        - 'article_read'
+    username:
+      groups:
+        - 'article_read'
+
