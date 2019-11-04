@@ -35,13 +35,13 @@ class ArticleAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('id', 'text', ['label' => 'id', 'attr' => ['readonly' => true]])
-             ->add('author', 'sonata_type_model_list', [
-                 'btn_add' => false,
-                 'btn_list' => true,
-                 'btn_edit' => false,
-                 'btn_delete' => true,
-                 'btn_catalogue' => true,
-                 'label' => 'Author',
+            ->add('author', 'sonata_type_model_list', [
+                'btn_add' => false,
+                'btn_list' => true,
+                'btn_edit' => false,
+                'btn_delete' => true,
+                'btn_catalogue' => true,
+                'label' => 'Author',
              ])
             ->add(
                 'status',
@@ -51,6 +51,11 @@ class ArticleAdmin extends AbstractAdmin
                     'choices' => Article::getStatusChoices(),
                 ]
             )
+            ->add('publishedAt', 'date', [
+                'label' => 'Published At',
+                'required' => false,
+                'years' => range(2004, date('Y'))
+            ])
             ->add('translations', TranslationsType::class, [
                 'required' => true,
                 'fields' => [
