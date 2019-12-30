@@ -3,6 +3,7 @@
 namespace ProjetNormandie\ArticleBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
+use DateTime;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -134,7 +135,7 @@ class ArticleAdmin extends AbstractAdmin
 
         // PUBLISHED
         if ($originalObject['status'] === Article::STATUS_UNDER_CONSTRUCTION && $object->getStatus() === Article::STATUS_PUBLISHED) {
-            $object->setPublishedAt(new \DateTime());
+            $object->setPublishedAt(new DateTime());
         }
     }
 }
