@@ -3,7 +3,6 @@
 namespace ProjetNormandie\ArticleBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
 use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
@@ -17,7 +16,6 @@ use Eko\FeedBundle\Item\Writer\ItemInterface;
  * @ORM\Entity(repositoryClass="ProjetNormandie\ArticleBundle\Repository\ArticleRepository")
  * @method ArticleTranslation translate(string $locale, bool $fallbackToDefault)
  * @ApiResource(attributes={"order"={"id": "DESC"}})
- *
  */
 class Article implements ItemInterface
 {
@@ -25,10 +23,9 @@ class Article implements ItemInterface
     use Translatable;
     use Sluggable;
 
-
-    const STATUS_UNDER_CONSTRUCTION= 'UNDER CONSTRUCTION';
-    const STATUS_PUBLISHED = 'PUBLISHED';
-    const STATUS_CANCELED = 'CANCELED';
+    public const STATUS_UNDER_CONSTRUCTION= 'UNDER CONSTRUCTION';
+    public const STATUS_PUBLISHED = 'PUBLISHED';
+    public const STATUS_CANCELED = 'CANCELED';
 
 
     /**
@@ -65,7 +62,7 @@ class Article implements ItemInterface
     private $author;
 
     /**
-     * @var datetime
+     * @var \DateTime
      *
      * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */

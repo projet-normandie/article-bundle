@@ -3,11 +3,9 @@
 namespace ProjetNormandie\ArticleBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
 
 /**
  * Class ArticleController
@@ -16,12 +14,10 @@ use Symfony\Component\HttpFoundation\Response;
 class ArticleController extends Controller
 {
     /**
-     * @Route("/rss", name="article_rss")
-     * @Method("GET")
+     * @Route("/rss", name="article_rss", methods={"GET"})
      * @Cache(smaxage="10")
-     * @return \Symfony\Component\HttpFoundation\Response
      */
-    public function rssAction()
+    public function rssAction(): Response
     {
         $articles = $this->getDoctrine()->getRepository('ProjetNormandieArticleBundle:Article')->findBy(
             array(
@@ -35,7 +31,7 @@ class ArticleController extends Controller
 
         // Add prefixe link
         foreach ($articles as $article) {
-            if ($article->getLink() != null) {
+            if ($article->getLink() !== null) {
                 $article->setLink($feed->get('link') . $article->getLink());
             }
         }
