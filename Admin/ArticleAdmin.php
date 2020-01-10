@@ -66,7 +66,6 @@ class ArticleAdmin extends AbstractAdmin
                     ],
                     'text' => [
                         'field_type' => CKEditorType::class,
-                         //'field_type' => 'ckeditor',
                         'label' => ' Text',
                     ]
                 ]
@@ -90,7 +89,7 @@ class ArticleAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper->addIdentifier('id')
-            ->add('getTitle', null, ['label' => 'Title'])
+            ->add('getDefaultTitle', null, ['label' => 'Title'])
             ->add(
                 'status',
                 'choice',
@@ -100,8 +99,8 @@ class ArticleAdmin extends AbstractAdmin
                     'choices' => Article::getStatusChoices(),
                 ]
             )
-            ->add('published_at', 'datetime', ['label' => 'Published At'])
             ->add('createdAt', null, ['label' => 'Created At'])
+            ->add('published_at', 'datetime', ['label' => 'Published At'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -119,8 +118,8 @@ class ArticleAdmin extends AbstractAdmin
         $showMapper
             ->add('id')
             ->add('status')
-            ->add('getTitle', null, ['label' => 'Title'])
-            ->add('getText', null, ['label' => 'Text']);
+            ->add('getDefaultTitle', null, ['label' => 'Title'])
+            ->add('getDefaultText', null, ['label' => 'Text', 'safe' => true]);
     }
 
     /**
