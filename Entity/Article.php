@@ -77,6 +77,21 @@ class Article implements ItemInterface
         return sprintf('%s [%s]', $this->getTitle(), $this->id);
     }
 
+    /**
+     * @return string
+     */
+    public function getDefaultTitle()
+    {
+        return $this->translate('en', false)->getTitle();
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultText()
+    {
+        return $this->translate('en', false)->getText();
+    }
 
     /**
      * Set id
