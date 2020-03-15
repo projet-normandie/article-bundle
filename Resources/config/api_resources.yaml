@@ -2,8 +2,7 @@ resources:
     ProjetNormandie\ArticleBundle\Entity\Article:
       collectionOperations:
           get:
-              normalization_context: {'groups': [article_read]}
-              filters : ['article.filters']
+              normalization_context: {'groups': [article.list]}
       itemOperations:
           get:
-              normalization_context: {'groups': [article_read]}
+              normalization_context: {'groups': [article.show, user.autocomplete]}

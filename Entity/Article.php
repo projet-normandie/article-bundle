@@ -15,7 +15,7 @@ use Eko\FeedBundle\Item\Writer\ItemInterface;
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="ProjetNormandie\ArticleBundle\Repository\ArticleRepository")
  * @method ArticleTranslation translate(string $locale, bool $fallbackToDefault)
- * @ApiResource(attributes={"order"={"id": "DESC"}})
+ * @ApiResource(attributes={"filters"={"article.filter","article.order"}})
  */
 class Article implements ItemInterface
 {
