@@ -2,7 +2,7 @@ services:
     sonata.admin.article.article:
         class: ProjetNormandie\ArticleBundle\Admin\ArticleAdmin
         tags:
-            - { name: sonata.admin, manager_type: orm, group: "Articles", label: "Article" }
+            - { name: sonata.admin, manager_type: orm, group: "group.articles", label: "label.article" }
         arguments:
             - ~
             - ProjetNormandie\ArticleBundle\Entity\Article
