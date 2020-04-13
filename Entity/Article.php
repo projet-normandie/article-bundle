@@ -3,12 +3,15 @@
 namespace ProjetNormandie\ArticleBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Timestampable\Timestampable;
-use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
-use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
+use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
+use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
+use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 
 /**
  * Article
@@ -18,11 +21,11 @@ use Symfony\Component\Validator\Constraints as Assert;
  * @method ArticleTranslation translate(string $locale, bool $fallbackToDefault)
  * @ApiResource(attributes={"filters"={"article.filter","article.order"}})
  */
-class Article implements ItemInterface
+class Article implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface
 {
-    use Timestampable;
-    use Translatable;
-    use Sluggable;
+    use TimestampableTrait;
+    use TranslatableTrait;
+    use SluggableTrait;
 
     public const STATUS_UNDER_CONSTRUCTION= 'UNDER CONSTRUCTION';
     public const STATUS_PUBLISHED = 'PUBLISHED';
@@ -288,9 +291,9 @@ class Article implements ItemInterface
     /**
      * Returns an array of the fields used to generate the slug.
      *
-     * @return array
+     * @return string[]
      */
-    public function getSluggableFields()
+    public function getSluggableFields(): array
     {
         return ['defaultTitle'];
     }
