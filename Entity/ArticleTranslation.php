@@ -3,15 +3,23 @@
 namespace ProjetNormandie\ArticleBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Model\Translatable\Translation;
+use Knp\DoctrineBehaviors\Contract\Entity\TranslationInterface;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslationTrait;
 
 /**
  * @ORM\Entity
  * @ORM\Table(name="article_translation")
  */
-class ArticleTranslation
+class ArticleTranslation implements TranslationInterface
 {
-    use Translation;
+    use TranslationTrait;
+
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
 
     /**
      * @var string
@@ -26,6 +34,14 @@ class ArticleTranslation
      * @ORM\Column(name="text", type="text", nullable=false)
      */
     private $text;
+
+    /**
+     * @return mixed
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
 
     /**
      * @param string $title
