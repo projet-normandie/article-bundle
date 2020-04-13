@@ -11,8 +11,11 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use ProjetNormandie\ArticleBundle\Entity\Article;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Sonata\AdminBundle\Form\Type\ModelListType;
 
 /**
  * Administration manager for the Article Bundle.
@@ -35,8 +38,8 @@ class ArticleAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('id', 'text', ['label' => 'id', 'attr' => ['readonly' => true]])
-            ->add('author', 'sonata_type_model_list', [
+            ->add('id', TextType::class, ['label' => 'id', 'attr' => ['readonly' => true]])
+            ->add('author', ModelListType::class, [
                 'btn_add' => false,
                 'btn_list' => true,
                 'btn_edit' => false,
@@ -52,7 +55,7 @@ class ArticleAdmin extends AbstractAdmin
                     'choices' => Article::getStatusChoices(),
                 ]
             )
-            ->add('publishedAt', 'date', [
+            ->add('publishedAt', DateType::class, [
                 'label' => 'Published At',
                 'required' => false,
                 'years' => range(2004, date('Y'))
@@ -61,7 +64,7 @@ class ArticleAdmin extends AbstractAdmin
                 'required' => true,
                 'fields' => [
                     'title' => [
-                        'field_type' => 'text',
+                        'field_type' => TextType::class,
                         'label' => ' Title',
                     ],
                     'text' => [

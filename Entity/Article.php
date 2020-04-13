@@ -8,6 +8,7 @@ use Knp\DoctrineBehaviors\Model\Translatable\Translatable;
 use Knp\DoctrineBehaviors\Model\Sluggable\Sluggable;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Article
@@ -53,7 +54,7 @@ class Article implements ItemInterface
 
     /**
      * @var UserInterface
-     *
+     * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\UserInterface", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idAuthor", referencedColumnName="id", nullable=false)
@@ -291,6 +292,6 @@ class Article implements ItemInterface
      */
     public function getSluggableFields()
     {
-        return ['title'];
+        return ['defaultTitle'];
     }
 }
