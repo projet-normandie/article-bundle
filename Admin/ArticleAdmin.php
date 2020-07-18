@@ -93,6 +93,7 @@ class ArticleAdmin extends AbstractAdmin
     {
         $listMapper->addIdentifier('id')
             ->add('getDefaultTitle', null, ['label' => 'Title'])
+            ->add('author')
             ->add(
                 'status',
                 'choice',
