@@ -3,16 +3,32 @@
 namespace ProjetNormandie\ArticleBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Cache;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Eko\FeedBundle\Feed\FeedManager;
 
 /**
  * Class ArticleController
  * @Route("/article")
  */
-class ArticleController extends Controller
+class ArticleController extends AbstractController
 {
+    /**
+     * @var FeedManager
+     */
+    protected $feedManager;
+
+    /**
+     * Constructor.
+     *
+     * @param FeedManager $feedManager
+     */
+    public function __construct(FeedManager $feedManager)
+    {
+        $this->feedManager = $feedManager;
+    }
+
     /**
      * @Route("/rss", name="article_rss", methods={"GET"})
      * @Cache(smaxage="10")
@@ -27,7 +43,7 @@ class ArticleController extends Controller
             20
         );
 
-        $feed = $this->get('eko_feed.feed.manager')->get('article');
+        $feed = $this->feedManager->get('article');
 
         // Add prefixe link
         foreach ($articles as $article) {
