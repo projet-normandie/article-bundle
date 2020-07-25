@@ -5,6 +5,7 @@ namespace ProjetNormandie\ArticleBundle\Admin;
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use DateTime;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
+use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -31,6 +32,19 @@ class ArticleAdmin extends AbstractAdmin
     {
         $collection->remove('export');
     }
+
+    /**
+     * @param ProxyQueryInterface $query
+     * @return ProxyQueryInterface
+     */
+    protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
+    {
+        $query = parent::configureQuery($query);
+        $query->leftJoin($query->getRootAliases()[0]  . '.translations', 't')
+            ->addSelect('t');
+        return $query;
+    }
+
 
     /**
      * @inheritdoc
