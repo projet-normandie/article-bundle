@@ -1,9 +1,12 @@
-App\Entity\User:
+ProjetNormandie\UserBundle\Entity\User:
   attributes:
     id:
       groups:
-        - 'article_read'
+        - 'article.user.read'
     username:
       groups:
-        - 'article_read'
+        - 'article.user.read'
+    avatar:
+      groups:
+        - 'article.user.read'
 

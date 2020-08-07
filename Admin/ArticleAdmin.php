@@ -23,7 +23,7 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
  */
 class ArticleAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'pnforumbundle_admin_article';
+    protected $baseRouteName = 'pnarticlebundle_admin_article';
 
     /**
      * @inheritdoc
@@ -123,6 +123,9 @@ class ArticleAdmin extends AbstractAdmin
                 'actions' => [
                     'show' => [],
                     'edit' => [],
+                    'groups' => [
+                        'template' => 'ProjetNormandieArticleBundle:Admin:article_comments_link.html.twig'
+                    ],
                 ]
             ]);
     }

@@ -12,6 +12,9 @@ use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
 use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
+use ApiPlatform\Core\Annotation\ApiFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
 
 /**
  * Article
@@ -20,6 +23,13 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
  * @ORM\Entity(repositoryClass="ProjetNormandie\ArticleBundle\Repository\ArticleRepository")
  * @method ArticleTranslation translate(string $locale, bool $fallbackToDefault)
  * @ApiResource(attributes={"filters"={"article.filter","article.order"}})
+ * @ApiFilter(
+ *     SearchFilter::class,
+ *     properties={
+ *          "status": "exact",
+ *      }
+ * )
+ * @ApiFilter(OrderFilter::class, properties={"id","ASC","publishedAt": "DESC"}, arguments={"orderParameterName"="order"})
  */
 class Article implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface
 {
@@ -72,13 +82,18 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
      */
     private $publishedAt;
 
+    /**
+     * @ORM\OneToMany(targetEntity="ProjetNormandie\ArticleBundle\Entity\Comment", mappedBy="article")
+     */
+    private $comments;
+
 
     /**
      * @return string
      */
     public function __toString()
     {
-        return sprintf('%s [%s]', $this->getTitle(), $this->id);
+        return sprintf('%s [%s]', $this->getDefaultTitle(), $this->id);
     }
 
     /**
@@ -244,6 +259,14 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
     public function getText()
     {
         return $this->translate(null, false)->getText();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 
     /**

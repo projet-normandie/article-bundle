@@ -7,3 +7,11 @@ services:
             - ~
             - ProjetNormandie\ArticleBundle\Entity\Article
             - ~
+    sonata.admin.article.comment:
+        class: ProjetNormandie\ArticleBundle\Admin\CommentAdmin
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: "group.articles", label: "label.comment" }
+        arguments:
+            - ~
+            - ProjetNormandie\ArticleBundle\Entity\Comment
+            - ~
