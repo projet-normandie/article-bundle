@@ -30,7 +30,7 @@ class Comment implements TimestampableInterface
     /**
      * @var Article
      * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\Article")
+     * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\Article", inversedBy="comments")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idArticle", referencedColumnName="id", nullable=false)
      * })
