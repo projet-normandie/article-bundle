@@ -9,7 +9,6 @@ resources:
         properties:
             comments:
                 subresource:
-                    resourceClass: 'ProjetNormandie\ForumBundle\Entity\Comment'
                     maxDepth: 1
                     collection: true
     ProjetNormandie\ArticleBundle\Entity\Comment:
