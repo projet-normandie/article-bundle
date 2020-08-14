@@ -5,7 +5,7 @@ resources:
                 normalization_context: {'groups': [article.list]}
         itemOperations:
             get:
-                normalization_context: {'groups': [article.show, user.autocomplete]}
+                normalization_context: {'groups': [article.read, user.autocomplete]}
         properties:
             comments:
                 subresource:

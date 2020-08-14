@@ -3,21 +3,24 @@ ProjetNormandie\ArticleBundle\Entity\Article:
     id:
       groups:
         - 'article.list'
-        - 'article.show'
+        - 'article.read'
     author:
       groups:
-        - 'article.show'
+        - 'article.read'
     title:
       groups:
         - 'article.list'
-        - 'article.show'
+        - 'article.read'
     text:
       groups:
-        - 'article.show'
+        - 'article.read'
     status:
       groups:
         - 'article.list'
-        - 'article.show'
+        - 'article.read'
+    nbComment:
+      groups:
+        - 'article.list'
     createdAt:
       groups: []
     updatedAt:
@@ -25,4 +28,4 @@ ProjetNormandie\ArticleBundle\Entity\Article:
     publishedAt:
       groups:
         - 'article.list'
-        - 'article.show'
+        - 'article.read'

@@ -66,6 +66,13 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
     private $link;
 
     /**
+     * @var integer
+     *
+     * @ORM\Column(name="nbComment", type="integer", nullable=false, options={"default":0})
+     */
+    private $nbComment = 0;
+
+    /**
      * @var UserInterface
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\UserInterface", fetch="EAGER")
@@ -179,6 +186,29 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
     public function getLink()
     {
         return $this->link;
+    }
+
+    /**
+     * Set nbComment
+     *
+     * @param integer $nbComment
+     * @return $this
+     */
+    public function setNbComment($nbComment)
+    {
+        $this->nbComment = $nbComment;
+
+        return $this;
+    }
+
+    /**
+     * Get nbComment
+     *
+     * @return integer
+     */
+    public function getNbComment()
+    {
+        return $this->nbComment;
     }
 
     /**
