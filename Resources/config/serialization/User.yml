@@ -9,4 +9,7 @@ ProjetNormandie\UserBundle\Entity\User:
     avatar:
       groups:
         - 'article.user.read'
+    slug:
+      groups:
+        - 'article.user.read'
 
