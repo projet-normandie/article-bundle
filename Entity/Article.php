@@ -15,6 +15,7 @@ use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use ApiPlatform\Core\Annotation\ApiFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\SearchFilter;
 use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
+use DateTime;
 
 /**
  * Article
@@ -27,9 +28,16 @@ use ApiPlatform\Core\Bridge\Doctrine\Orm\Filter\OrderFilter;
  *     SearchFilter::class,
  *     properties={
  *          "status": "exact",
- *      }
+ *     }
  * )
- * @ApiFilter(OrderFilter::class, properties={"id","ASC","publishedAt": "DESC"}, arguments={"orderParameterName"="order"})
+ * @ApiFilter(
+ *     OrderFilter::class,
+ *     properties={
+ *          "id":"ASC",
+ *          "publishedAt": "DESC"
+ *     },
+ *     arguments={"orderParameterName"="order"}
+ * )
  */
 class Article implements ItemInterface, SluggableInterface, TimestampableInterface, TranslatableInterface
 {
@@ -83,7 +91,7 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
     private $author;
 
     /**
-     * @var \DateTime
+     * @var DateTime
      *
      * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */
@@ -125,7 +133,7 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 
@@ -148,7 +156,7 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
      * @param string $status
      * @return string
      */
-    public function setStatus($status)
+    public function setStatus(string $status)
     {
         $this->status = $status;
 
@@ -171,7 +179,7 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
      * @param string $link
      * @return string
      */
-    public function setLink($link)
+    public function setLink(string $link)
     {
         $this->link = $link;
 
@@ -194,7 +202,7 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
      * @param integer $nbComment
      * @return $this
      */
-    public function setNbComment($nbComment)
+    public function setNbComment(int $nbComment)
     {
         $this->nbComment = $nbComment;
 
@@ -226,7 +234,7 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
      * @param UserInterface $author
      * @return $this
      */
-    public function setAuthor($author)
+    public function setAuthor(UserInterface $author)
     {
         $this->author = $author;
         return $this;
@@ -234,7 +242,7 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
 
     /**
      * Get publishedAt
-     * @return \DateTime
+     * @return DateTime
      */
     public function getPublishedAt()
     {
@@ -244,10 +252,10 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
     /**
      * Set publishedAt
      *
-     * @param \DateTime $publishedAt
+     * @param DateTime $publishedAt
      * @return $this
      */
-    public function setPublishedAt($publishedAt)
+    public function setPublishedAt(DateTime $publishedAt)
     {
         $this->publishedAt = $publishedAt;
         return $this;
@@ -257,7 +265,7 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
      * @param string $title
      * @return $this
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->translate(null, false)->setTitle($title);
 
@@ -276,7 +284,7 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
      * @param string $text
      * @return $this
      */
-    public function setText($text)
+    public function setText(string $text)
     {
         $this->translate(null, false)->setText($text);
 
@@ -328,16 +336,18 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getFeedItemPubDate() {
+    public function getFeedItemPubDate()
+    {
         return $this->getPublishedAt();
     }
 
     /**
      * @return string
      */
-    public function getFeedItemLink() {
+    public function getFeedItemLink()
+    {
         return $this->getLink();
     }
 

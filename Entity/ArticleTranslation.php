@@ -47,7 +47,7 @@ class ArticleTranslation implements TranslationInterface
      * @param string $title
      * @return $this
      */
-    public function setTitle($title)
+    public function setTitle(string $title)
     {
         $this->title = $title;
 
@@ -66,7 +66,7 @@ class ArticleTranslation implements TranslationInterface
      * @param string $text
      * @return $this
      */
-    public function setText($text)
+    public function setText(string $text)
     {
         $this->text = $text;
 

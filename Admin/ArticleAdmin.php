@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\DateType;
 use ProjetNormandie\ArticleBundle\Entity\Article;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
+use Doctrine\ORM\EntityManager;
 
 /**
  * Administration manager for the Article Bundle.
@@ -26,7 +27,7 @@ class ArticleAdmin extends AbstractAdmin
     protected $baseRouteName = 'pnarticlebundle_admin_article';
 
     /**
-     * @inheritdoc
+     * @param RouteCollection $collection
      */
     protected function configureRoutes(RouteCollection $collection)
     {
@@ -47,7 +48,7 @@ class ArticleAdmin extends AbstractAdmin
 
 
     /**
-     * @inheritdoc
+     * @param FormMapper $formMapper
      */
     protected function configureFormFields(FormMapper $formMapper)
     {
@@ -90,7 +91,7 @@ class ArticleAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
+     * @param DatagridMapper $datagridMapper
      */
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
@@ -100,8 +101,7 @@ class ArticleAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
-     * @throws \RuntimeException When defining wrong or duplicate field names.
+     * @param ListMapper $listMapper
      */
     protected function configureListFields(ListMapper $listMapper)
     {
@@ -131,8 +131,7 @@ class ArticleAdmin extends AbstractAdmin
     }
 
     /**
-     * @inheritdoc
-     * @throws \RuntimeException When defining wrong or duplicate field names.
+     * @param ShowMapper $showMapper
      */
     protected function configureShowFields(ShowMapper $showMapper)
     {
@@ -144,17 +143,17 @@ class ArticleAdmin extends AbstractAdmin
     }
 
     /**
-     * @param \ProjetNormandie\ArticleBundle\Entity\Article $object
-     * @throws \Exception
+     * @param object $object
      */
     public function preUpdate($object)
     {
-        /** @var \Doctrine\ORM\EntityManager $em */
+        /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());
         $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
 
         // PUBLISHED
-        if ($originalObject['status'] === Article::STATUS_UNDER_CONSTRUCTION && $object->getStatus() === Article::STATUS_PUBLISHED) {
+        if ($originalObject['status'] === Article::STATUS_UNDER_CONSTRUCTION
+            && $object->getStatus() === Article::STATUS_PUBLISHED) {
             $object->setPublishedAt(new DateTime());
         }
     }

@@ -68,7 +68,7 @@ class Comment implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId($id)
+    public function setId(int $id)
     {
         $this->id = $id;
 
@@ -100,7 +100,7 @@ class Comment implements TimestampableInterface
      * @param Article $article
      * @return $this
      */
-    public function setArticle($article)
+    public function setArticle(Article $article)
     {
         $this->article = $article;
         return $this;
@@ -121,7 +121,7 @@ class Comment implements TimestampableInterface
      * @param UserInterface $user
      * @return $this
      */
-    public function setUser($user)
+    public function setUser(UserInterface $user)
     {
         $this->user = $user;
         return $this;
@@ -131,7 +131,7 @@ class Comment implements TimestampableInterface
      * @param string $text
      * @return $this
      */
-    public function setText($text)
+    public function setText(string $text)
     {
         $this->text = $text;
 
