@@ -2,21 +2,14 @@
 
 namespace ProjetNormandie\ArticleBundle\Admin;
 
-use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
-use DateTime;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
-use ProjetNormandie\ArticleBundle\Entity\Article;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 
 /**
@@ -43,18 +36,18 @@ class CommentAdmin extends AbstractAdmin
             ->add('id', TextType::class, ['label' => 'id', 'attr' => ['readonly' => true]])
             ->add('user', ModelListType::class, [
                 'btn_add' => false,
-                'btn_list' => true,
+                'btn_list' => false,
                 'btn_edit' => false,
-                'btn_delete' => true,
-                'btn_catalogue' => true,
+                'btn_delete' => false,
+                'btn_catalogue' => false,
                 'label' => 'User',
              ])
             ->add('article', ModelListType::class, [
                 'btn_add' => false,
-                'btn_list' => true,
+                'btn_list' => false,
                 'btn_edit' => false,
-                'btn_delete' => true,
-                'btn_catalogue' => true,
+                'btn_delete' => false,
+                'btn_catalogue' => false,
                 'label' => 'Article',
             ])
             ->add(

@@ -23,7 +23,6 @@ use DateTime;
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="ProjetNormandie\ArticleBundle\Repository\ArticleRepository")
  * @method ArticleTranslation translate(string $locale, bool $fallbackToDefault)
- * @ApiResource(attributes={"filters"={"article.filter","article.order"}})
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
