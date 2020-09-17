@@ -29,11 +29,12 @@ class Writer
     public function write($title, $text, $author)
     {
         $article = new Article();
-        $article->translate('en', false)->setTitle($title['en']);
-        $article->translate('fr', false)->setTitle($title['fr']);
-        $article->translate('en', false)->setText($text['en']);
-        $article->translate('fr', false)->setText($text['fr']);
-
+        foreach ($title as $lang => $value) {
+            $article->translate($lang, false)->setTitle($value);
+        }
+        foreach ($text as $lang => $value) {
+            $article->translate($lang, false)->setText($value);
+        }
         $article->setAuthor($author);
         $article->mergeNewTranslations();
 
