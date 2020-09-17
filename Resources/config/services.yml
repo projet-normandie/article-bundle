@@ -8,3 +8,6 @@ services:
     ProjetNormandie\ArticleBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+    ProjetNormandie\ArticleBundle\Service\Writer:
+        class: ProjetNormandie\ArticleBundle\Service\Writer
+        arguments: [ '@doctrine.orm.entity_manager' ]

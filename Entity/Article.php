@@ -230,10 +230,10 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
     /**
      * Set author
      *
-     * @param UserInterface $author
+     * @param $author
      * @return $this
      */
-    public function setAuthor(UserInterface $author)
+    public function setAuthor($author)
     {
         $this->author = $author;
         return $this;
