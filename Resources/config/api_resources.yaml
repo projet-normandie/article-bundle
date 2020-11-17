@@ -1,0 +1,29 @@
+resources:
+    ProjetNormandie\ArticleBundle\Entity\Article:
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [article.list]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [article.read, user.autocomplete]}
+        properties:
+            comments:
+                subresource:
+                    maxDepth: 1
+                    collection: true
+    ProjetNormandie\ArticleBundle\Entity\Comment:
+        shortName: 'ArticleComment'
+        subresourceOperations:
+            api_articles_comments_get_subresource:
+                method: 'GET'
+                normalization_context: {'groups': [article.comment.read, article.comment.user, article.user.read]}
+        collectionOperations:
+            get:
+                normalization_context: {'groups': [article.comment.read, article.comment.user, article.user.read]}
+            post:
+                access_control: 'is_granted("ROLE_USER")'
+                denormalization_context: {'groups': [article.comment.post]}
+                normalization_context: {'groups': [article.comment.read, article.comment.user, article.user.read]}
+        itemOperations:
+            get:
+                normalization_context: {'groups': [article.comment.read]}
