@@ -251,10 +251,10 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
     /**
      * Set publishedAt
      *
-     * @param DateTime $publishedAt
+     * @param $publishedAt
      * @return $this
      */
-    public function setPublishedAt(DateTime $publishedAt)
+    public function setPublishedAt($publishedAt)
     {
         $this->publishedAt = $publishedAt;
         return $this;
