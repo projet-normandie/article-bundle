@@ -118,10 +118,10 @@ class Comment implements TimestampableInterface
     /**
      * Set user
      *
-     * @param UserInterface $user
+     * @param $user
      * @return $this
      */
-    public function setUser(UserInterface $user)
+    public function setUser($user)
     {
         $this->user = $user;
         return $this;

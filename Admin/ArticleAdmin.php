@@ -13,7 +13,7 @@ use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use ProjetNormandie\ArticleBundle\Entity\Article;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
@@ -77,7 +77,7 @@ class ArticleAdmin extends AbstractAdmin
                     'choices' => Article::getStatusChoices(),
                 ]
             )
-            ->add('publishedAt', DateType::class, [
+            ->add('publishedAt', DateTimeType::class, [
                 'label' => 'Published At',
                 'required' => false,
                 'years' => range(2004, date('Y'))
