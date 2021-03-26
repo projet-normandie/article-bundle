@@ -158,7 +158,9 @@ class Article implements ItemInterface, SluggableInterface, TimestampableInterfa
     public function setStatus(string $status)
     {
         $this->status = $status;
-
+        if ($this->status == self::STATUS_PUBLISHED AND $this->publishedAt == null) {
+            $this->setPublishedAt(new DateTime());
+        }
         return $this;
     }
 

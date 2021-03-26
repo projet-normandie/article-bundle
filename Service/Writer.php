@@ -36,6 +36,8 @@ class Writer
             $article->translate($lang, false)->setText($value);
         }
         $article->setAuthor($author);
+        $article->setStatus(Article::STATUS_PUBLISHED);
+        $article->setPublishedAt(new \Datetime());
         $article->mergeNewTranslations();
 
         $this->em->persist($article);
