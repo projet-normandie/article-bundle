@@ -50,6 +50,5 @@ deploy-pp:
   stage: deploy-preprod
   environment:
     name: testing
-    url: https://api.projet-normandie.fr/
   only:
     - develop
