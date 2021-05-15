@@ -10,6 +10,9 @@ ProjetNormandie\ArticleBundle\Entity\Article:
     title:
       groups:
         - 'article.read'
+    slug:
+      groups:
+        - 'article.read'
     text:
       groups:
         - 'article.read'
