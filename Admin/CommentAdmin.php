@@ -2,6 +2,7 @@
 
 namespace ProjetNormandie\ArticleBundle\Admin;
 
+use FOS\CKEditorBundle\Form\Type\CKEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Show\ShowMapper;
 use Sonata\AdminBundle\Form\FormMapper;
@@ -50,9 +51,14 @@ class CommentAdmin extends AbstractAdmin
                 'btn_catalogue' => false,
                 'label' => 'Article',
             ])
-            ->add(
-                'text'
-            );
+            ->add('text', CKEditorType::class, [
+                'label' => 'Message',
+                'required' => true,
+                'config' => array(
+                    'height' => '200',
+                    'toolbar' => 'standard'
+                ),
+            ]);
     }
 
     /**
