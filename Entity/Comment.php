@@ -19,26 +19,22 @@ class Comment implements TimestampableInterface
     use TimestampableTrait;
 
     /**
-     * @var integer
-     *
      * @ORM\Column(name="id", type="integer")
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private $id;
+    private int $id;
 
     /**
-     * @var Article
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\Article", inversedBy="comments")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idArticle", referencedColumnName="id", nullable=false)
      * })
      */
-    private $article;
+    private Article $article;
 
     /**
-     * @var UserInterface
      * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\UserInterface", fetch="EAGER")
      * @ORM\JoinColumns({
@@ -52,7 +48,7 @@ class Comment implements TimestampableInterface
      *
      * @ORM\Column(name="text", type="text", nullable=false)
      */
-    private $text;
+    private string $text;
 
     /**
      * @return string
@@ -68,7 +64,7 @@ class Comment implements TimestampableInterface
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id)
+    public function setId(int $id): self
     {
         $this->id = $id;
 
@@ -80,7 +76,7 @@ class Comment implements TimestampableInterface
      *
      * @return integer
      */
-    public function getId()
+    public function getId(): int
     {
         return $this->id;
     }
@@ -89,7 +85,7 @@ class Comment implements TimestampableInterface
      * Get article
      * @return Article
      */
-    public function getArticle()
+    public function getArticle(): self
     {
         return $this->article;
     }
@@ -100,7 +96,7 @@ class Comment implements TimestampableInterface
      * @param Article $article
      * @return $this
      */
-    public function setArticle(Article $article)
+    public function setArticle(Article $article): self
     {
         $this->article = $article;
         return $this;
@@ -121,7 +117,7 @@ class Comment implements TimestampableInterface
      * @param $user
      * @return $this
      */
-    public function setUser($user)
+    public function setUser($user): self
     {
         $this->user = $user;
         return $this;
@@ -131,7 +127,7 @@ class Comment implements TimestampableInterface
      * @param string $text
      * @return $this
      */
-    public function setText(string $text)
+    public function setText(string $text): self
     {
         $this->text = $text;
 
@@ -141,7 +137,7 @@ class Comment implements TimestampableInterface
     /**
      * @return string
      */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }
