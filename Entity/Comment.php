@@ -23,7 +23,7 @@ class Comment implements TimestampableInterface
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @Assert\NotNull

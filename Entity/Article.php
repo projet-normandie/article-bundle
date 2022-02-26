@@ -23,7 +23,6 @@ use DateTime;
  *
  * @ORM\Table(name="article")
  * @ORM\Entity(repositoryClass="ProjetNormandie\ArticleBundle\Repository\ArticleRepository")
- * @method ArticleTranslation translate(string $locale, bool $fallbackToDefault)
  * @ApiFilter(
  *     SearchFilter::class,
  *     properties={
@@ -55,7 +54,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      * @ORM\Id
      * @ORM\GeneratedValue(strategy="IDENTITY")
      */
-    private int $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(name="status", type="string", nullable=false)
