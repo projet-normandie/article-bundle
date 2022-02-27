@@ -4,7 +4,6 @@ namespace ProjetNormandie\ArticleBundle\Entity;
 
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use ApiPlatform\Core\Annotation\ApiResource;
 use Eko\FeedBundle\Item\Writer\ItemInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
@@ -128,7 +127,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      *
      * @return integer
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
