@@ -78,7 +78,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
     /**
      * @ORM\Column(name="published_at", type="datetime", nullable=true)
      */
-    private DateTime $publishedAt;
+    private ?DateTime $publishedAt = null;
 
     /**
      * @ORM\OneToMany(targetEntity="ProjetNormandie\ArticleBundle\Entity\Comment", mappedBy="article")
@@ -207,7 +207,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      * Get publishedAt
      * @return DateTime
      */
-    public function getPublishedAt(): DateTime
+    public function getPublishedAt(): ?DateTime
     {
         return $this->publishedAt;
     }
@@ -218,7 +218,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      * @param DateTime|null $publishedAt
      * @return $this
      */
-    public function setPublishedAt(DateTime $publishedAt = null): self
+    public function setPublishedAt(?DateTime $publishedAt = null): self
     {
         $this->publishedAt = $publishedAt;
         return $this;
