@@ -55,11 +55,11 @@ class ArticleAdmin extends AbstractAdmin
 
 
     /**
-     * @param FormMapper $formMapper
+     * @param FormMapper $form
      */
-    protected function configureFormFields(FormMapper $formMapper): void
+    protected function configureFormFields(FormMapper $form): void
     {
-        $formMapper
+        $form
             ->add('id', TextType::class, ['label' => 'id', 'attr' => ['readonly' => true]])
             ->add('author', ModelListType::class, [
                 'btn_add' => false,
@@ -152,7 +152,7 @@ class ArticleAdmin extends AbstractAdmin
     /**
      * @param object $object
      */
-    public function preUpdate($object): void
+    public function preUpdate(object $object): void
     {
         /** @var EntityManager $em */
         $em = $this->getModelManager()->getEntityManager($this->getClass());

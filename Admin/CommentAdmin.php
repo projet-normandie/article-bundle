@@ -10,7 +10,8 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
-use Sonata\DoctrineORMAdminBundle\Filter\ModelAutocompleteFilter;
+use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
+use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 
@@ -68,10 +69,13 @@ class CommentAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('article')
-            ->add('user', ModelAutocompleteFilter::class, [], null, [
-                'property' => 'username',
-            ]);
+            ->add('article.translations.title', null, ['label' => 'label.title'])
+            ->add('user', ModelFilter::class, [
+                 'field_type' => ModelAutocompleteType::class,
+                 'field_options' => ['property'=>'username'],
+            ])
+        ;
+
     }
 
     /**
@@ -80,9 +84,8 @@ class CommentAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $list): void
     {
         $list->addIdentifier('id')
-            ->add('getDefaultTitle', null, ['label' => 'Title'])
-            ->add('user')
             ->add('article')
+            ->add('user')
             ->add('createdAt', null, ['label' => 'Created At'])
             ->add('_action', 'actions', [
                 'actions' => [

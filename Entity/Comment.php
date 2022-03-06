@@ -85,7 +85,7 @@ class Comment implements TimestampableInterface
      * Get article
      * @return Article
      */
-    public function getArticle(): self
+    public function getArticle(): Article
     {
         return $this->article;
     }
