@@ -131,7 +131,7 @@ class ArticleAdmin extends AbstractAdmin
                     'show' => [],
                     'edit' => [],
                     'groups' => [
-                        'template' => 'ProjetNormandieArticleBundle:Admin:article_comments_link.html.twig'
+                        'template' => '@ProjetNormandieArticle/Admin/article_comments_link.html.twig'
                     ],
                 ]
             ]);
