@@ -61,7 +61,7 @@ class CommentCommand extends Command
     private function migrate()
     {
         /** @var CommentRepository $commentRepository */
-        $commentRepository = $this->em->getRepository('ProjetNormandieArticleBundle:Comment');
+        $commentRepository = $this->em->getRepository('ProjetNormandie\ArticleBundle\Entity\Comment');
 
         $bbcodeFiler = new BbcodeFilter();
         $comments = $commentRepository->findAll();
