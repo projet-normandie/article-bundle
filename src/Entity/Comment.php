@@ -59,8 +59,6 @@ class Comment implements TimestampableInterface
     }
 
     /**
-     * Set id
-     *
      * @param integer $id
      * @return $this
      */
@@ -72,17 +70,14 @@ class Comment implements TimestampableInterface
     }
 
     /**
-     * Get id
-     *
-     * @return integer
+     * @return int|null
      */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
 
     /**
-     * Get article
      * @return Article
      */
     public function getArticle(): Article
@@ -91,8 +86,6 @@ class Comment implements TimestampableInterface
     }
 
     /**
-     * Set article
-     *
      * @param Article $article
      * @return $this
      */
@@ -103,7 +96,6 @@ class Comment implements TimestampableInterface
     }
 
     /**
-     * Get user
      * @return UserInterface
      */
     public function getUser()
@@ -112,8 +104,6 @@ class Comment implements TimestampableInterface
     }
 
     /**
-     * Set user
-     *
      * @param $user
      * @return $this
      */

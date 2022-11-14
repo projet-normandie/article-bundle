@@ -1,3 +1,13 @@
+ProjetNormandieArticleBundle
+===========================
+
+Develop
+-------
+
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/projet-normandie/article-bundle/badges/quality-score.png?b=develop)](https://scrutinizer-ci.com/g/projet-normandie/article-bundle/?branch=develop)
+[![Build Status](https://scrutinizer-ci.com/g/projet-normandie/article-bundle/badges/build.png?b=develop)]()
+
+
 Installation
 ============
 

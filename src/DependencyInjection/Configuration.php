@@ -15,10 +15,17 @@ class Configuration implements ConfigurationInterface
     /**
      * @return TreeBuilder
      */
-    public function getConfigTreeBuilder()
+    public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('projet_normandie_article');
-        $treeBuilder->getRootNode();
+        $rootNode = $treeBuilder->getRootNode();
+
+        $rootNode
+            ->children()
+                ->scalarNode('default_user_id')->defaultValue(null)->end()
+                ->end()
+            ->end();
+
         return $treeBuilder;
     }
 }
