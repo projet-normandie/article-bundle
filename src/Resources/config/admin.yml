@@ -1,11 +1,19 @@
 services:
     sonata.admin.article.article:
         class: ProjetNormandie\ArticleBundle\Admin\ArticleAdmin
-        arguments: [ ~, ~, ~ ]
         tags:
-            - { name: sonata.admin, model_class: ProjetNormandie\ArticleBundle\Entity\Article, manager_type: orm, group: "group.articles", label: "label.article" }
+            -
+                name: sonata.admin
+                model_class: ProjetNormandie\ArticleBundle\Entity\Article
+                manager_type: orm
+                group: "group.articles"
+                label: "label.article"
     sonata.admin.article.comment:
         class: ProjetNormandie\ArticleBundle\Admin\CommentAdmin
-        arguments: [ ~, ~, ~ ]
         tags:
-            - { name: sonata.admin, model_class: ProjetNormandie\ArticleBundle\Entity\Comment, manager_type: orm, group: "group.articles", label: "label.comment" }
+            -
+                name: sonata.admin
+                model_class: ProjetNormandie\ArticleBundle\Entity\Comment
+                manager_type: orm
+                group: "group.articles"
+                label: "label.comment"
