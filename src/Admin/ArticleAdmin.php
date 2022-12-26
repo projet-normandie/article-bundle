@@ -60,25 +60,25 @@ class ArticleAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('id', TextType::class, ['label' => 'id', 'attr' => ['readonly' => true]])
+            ->add('id', TextType::class, ['label' => 'label.id', 'attr' => ['readonly' => true]])
             ->add('author', ModelListType::class, [
                 'btn_add' => false,
                 'btn_list' => true,
                 'btn_edit' => false,
                 'btn_delete' => true,
                 'btn_catalogue' => true,
-                'label' => 'Author',
+                'label' => 'label.author',
              ])
             ->add(
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'choices' => Article::getStatusChoices(),
                 ]
             )
             ->add('publishedAt', DateTimeType::class, [
-                'label' => 'Published At',
+                'label' => 'mabel.publishedAt',
                 'required' => false,
                 'years' => range(2004, date('Y'))
             ])
@@ -87,11 +87,11 @@ class ArticleAdmin extends AbstractAdmin
                 'fields' => [
                     'title' => [
                         'field_type' => TextType::class,
-                        'label' => ' Title',
+                        'label' => 'label.title',
                     ],
                     'text' => [
                         'field_type' => CKEditorType::class,
-                        'label' => ' Text',
+                        'label' => 'label.text',
                     ]
                 ]
             ]);
@@ -103,8 +103,8 @@ class ArticleAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('translations.title')
-            ->add('status');
+            ->add('translations.title', null, ['label' => 'label.title'])
+            ->add('status', null, ['label' => 'label.status']);
     }
 
     /**
@@ -112,20 +112,20 @@ class ArticleAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')
-            ->add('getDefaultTitle', null, ['label' => 'Title'])
-            ->add('author')
+        $list->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('getDefaultTitle', null, ['label' => 'label.title'])
+            ->add('author', null, ['label' => 'label.author'])
             ->add(
                 'status',
                 'choice',
                 [
-                    'label' => 'Status',
+                    'label' => 'label.status',
                     'editable' => false,
                     'choices' => Article::getStatusChoices(),
                 ]
             )
-            ->add('createdAt', null, ['label' => 'Created At'])
-            ->add('published_at', 'datetime', ['label' => 'Published At'])
+            ->add('createdAt', null, ['label' => 'label.createdAt'])
+            ->add('published_at', 'datetime', ['label' => 'label.publishedAt'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -143,10 +143,10 @@ class ArticleAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('status')
-            ->add('getDefaultTitle', null, ['label' => 'Title'])
-            ->add('getDefaultText', null, ['label' => 'Text', 'safe' => true]);
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('status', null, ['label' => 'label.status'])
+            ->add('getDefaultTitle', null, ['label' => 'label.title'])
+            ->add('getDefaultText', null, ['label' => 'label.text', 'safe' => true]);
     }
 
     /**

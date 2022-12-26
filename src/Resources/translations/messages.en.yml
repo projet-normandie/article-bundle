@@ -1,4 +1,14 @@
+breadcrumb:
+    link_article_list: 'Article List'
+    link_comment_list: 'Comment List'
 label:
     article: 'Article'
+    author: 'Author'
     comment: 'Comment'
+    createdAt: 'Created at'
+    id: 'id'
+    publishedAt: 'Published at'
+    status: 'Status'
+    text: 'Text'
     title: 'title'
+    user: 'User'

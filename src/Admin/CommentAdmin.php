@@ -36,14 +36,14 @@ class CommentAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('id', TextType::class, ['label' => 'id', 'attr' => ['readonly' => true]])
+            ->add('id', TextType::class, ['label' => 'label.id', 'attr' => ['readonly' => true]])
             ->add('user', ModelListType::class, [
                 'btn_add' => false,
                 'btn_list' => false,
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'User',
+                'label' => 'label.user',
              ])
             ->add('article', ModelListType::class, [
                 'btn_add' => false,
@@ -51,10 +51,10 @@ class CommentAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'Article',
+                'label' => 'label.article',
             ])
             ->add('text', CKEditorType::class, [
-                'label' => 'Message',
+                'label' => 'label.message',
                 'required' => true,
                 'config' => array(
                     'height' => '200',
@@ -71,8 +71,9 @@ class CommentAdmin extends AbstractAdmin
         $filter
             ->add('article.translations.title', null, ['label' => 'label.title'])
             ->add('user', ModelFilter::class, [
-                 'field_type' => ModelAutocompleteType::class,
-                 'field_options' => ['property'=>'username'],
+                'label' => 'label.user',
+                'field_type' => ModelAutocompleteType::class,
+                'field_options' => ['property'=>'username'],
             ])
         ;
 
@@ -83,10 +84,10 @@ class CommentAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id')
-            ->add('article')
-            ->add('user')
-            ->add('createdAt', null, ['label' => 'Created At'])
+        $list->addIdentifier('id', null, ['label' => 'label.id'])
+            ->add('article', null, ['label' => 'label.article'])
+            ->add('user', null, ['label' => 'label.user'])
+            ->add('createdAt', null, ['label' => 'label.createdAt'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -101,9 +102,9 @@ class CommentAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id')
-            ->add('user')
-            ->add('article')
-            ->add('text');
+            ->add('id', null, ['label' => 'label.id'])
+            ->add('user', null, ['label' => 'label.user'])
+            ->add('article', null, ['label' => 'label.article'])
+            ->add('text', null, ['label' => 'label.text', 'safe' => true]);
     }
 }
