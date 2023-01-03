@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  * Comment
  * @ORM\Table(name="article_comment")
  * @ORM\Entity(repositoryClass="ProjetNormandie\ArticleBundle\Repository\CommentRepository")
+ * @ORM\EntityListeners({"ProjetNormandie\ArticleBundle\EventListener\Entity\CommentListener"})
  * @ApiResource(attributes={"order"={"id"}})
  */
 class Comment implements TimestampableInterface
