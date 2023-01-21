@@ -1,16 +1,4 @@
 resources:
-    ProjetNormandie\ArticleBundle\Entity\Article:
-        collectionOperations:
-            get:
-                normalization_context: {'groups': [article.read, article.author,article.user.read]}
-        itemOperations:
-            get:
-                normalization_context: {'groups': [article.read, user.autocomplete]}
-        properties:
-            comments:
-                subresource:
-                    maxDepth: 1
-                    collection: true
     ProjetNormandie\ArticleBundle\Entity\Comment:
         shortName: 'ArticleComment'
         subresourceOperations:
