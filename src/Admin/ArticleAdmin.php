@@ -78,7 +78,7 @@ class ArticleAdmin extends AbstractAdmin
                 ]
             )
             ->add('publishedAt', DateTimeType::class, [
-                'label' => 'mabel.publishedAt',
+                'label' => 'label.publishedAt',
                 'required' => false,
                 'years' => range(2004, date('Y'))
             ])
