@@ -17,14 +17,16 @@
         "api-platform/core": "^2.7",
         "doctrine/orm": "^2.13",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
-        "sonata-project/admin-bundle": "^4.0",
-        "sonata-project/doctrine-orm-admin-bundle": "^4.0",
-        "sonata-project/translation-bundle": "^3.0",
         "symfony/dependency-injection": "^5.4",
         "symfony/event-dispatcher":  "^5.4",
         "symfony/http-kernel": "^5.4",
         "symfony/security-bundle": "^5.4",
         "knplabs/doctrine-behaviors": "~2.0"
+    },
+    "suggest": {
+        "sonata-project/admin-bundle": "To use administration with sonata",
+        "sonata-project/doctrine-orm-admin-bundle": "To use doctrine orm into sonata admin",
+        "sonata-project/translation-bundle": "To use transaltion into sonata admin"
     },
     "autoload": {
         "psr-4": { "ProjetNormandie\\ArticleBundle\\": "src/" }
