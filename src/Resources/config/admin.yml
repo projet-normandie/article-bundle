@@ -8,6 +8,8 @@ services:
                 manager_type: orm
                 group: "group.articles"
                 label: "label.article"
+        calls:
+            - [ setSecurity, [ '@security.helper' ] ]
     sonata.admin.article.comment:
         class: ProjetNormandie\ArticleBundle\Admin\CommentAdmin
         tags:

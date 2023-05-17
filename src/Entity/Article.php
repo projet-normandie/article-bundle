@@ -67,7 +67,6 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
     private int $nbComment = 0;
 
     /**
-     * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\UserInterface", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idAuthor", referencedColumnName="id", nullable=false)

@@ -18,8 +18,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use ProjetNormandie\ArticleBundle\Entity\Article;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Sonata\AdminBundle\Form\Type\ModelListType;
 use Doctrine\ORM\EntityManager;
+use Symfony\Component\Security\Core\Security;
 
 /**
  * Administration manager for the Article Bundle.
@@ -27,6 +27,13 @@ use Doctrine\ORM\EntityManager;
 class ArticleAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'pnarticlebundle_admin_article';
+
+    private Security $security;
+
+    public function setSecurity(Security $security)
+    {
+        $this->security = $security;
+    }
 
     /**
      * @param RouteCollectionInterface $collection
@@ -63,14 +70,6 @@ class ArticleAdmin extends AbstractAdmin
     {
         $form
             ->add('id', TextType::class, ['label' => 'label.id', 'attr' => ['readonly' => true]])
-            ->add('author', ModelListType::class, [
-                'btn_add' => false,
-                'btn_list' => true,
-                'btn_edit' => false,
-                'btn_delete' => true,
-                'btn_catalogue' => true,
-                'label' => 'label.author',
-             ])
             ->add(
                 'status',
                 ChoiceType::class,
@@ -156,6 +155,18 @@ class ArticleAdmin extends AbstractAdmin
             ->add('status', null, ['label' => 'label.status'])
             ->add('getDefaultTitle', null, ['label' => 'label.title'])
             ->add('getDefaultText', null, ['label' => 'label.text', 'safe' => true]);
+    }
+
+
+    /**
+     * @param object $object
+     */
+    public function prePersist(object $object): void
+    {
+        $object->setAuthor($this->security->getUser());
+        if ($object->getStatus() === Article::STATUS_PUBLISHED) {
+            $object->setPublishedAt(new DateTime());
+        }
     }
 
     /**
