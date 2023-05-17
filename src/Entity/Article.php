@@ -116,7 +116,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      * @param integer $id
      * @return $this
      */
-    public function setId(int $id): self
+    public function setId(int $id): static
     {
         $this->id = $id;
 
@@ -137,9 +137,9 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      * Set status
      *
      * @param string $status
-     * @return string
+     * @return $this
      */
-    public function setStatus(string $status): string
+    public function setStatus(string $status): static
     {
         $this->status = $status;
         if ($this->status == self::STATUS_PUBLISHED AND $this->getPublishedAt() === null) {
@@ -165,7 +165,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      * @param integer $nbComment
      * @return $this
      */
-    public function setNbComment(int $nbComment): self
+    public function setNbComment(int $nbComment): static
     {
         $this->nbComment = $nbComment;
 
@@ -197,7 +197,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      * @param $author
      * @return $this
      */
-    public function setAuthor($author): self
+    public function setAuthor($author): static
     {
         $this->author = $author;
         return $this;
@@ -228,7 +228,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      * @param string $title
      * @return $this
      */
-    public function setTitle(string $title): self
+    public function setTitle(string $title): static
     {
         $this->translate(null, false)->setTitle($title);
 
@@ -247,7 +247,7 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
      * @param string $text
      * @return $this
      */
-    public function setText(string $text): self
+    public function setText(string $text): static
     {
         $this->translate(null, false)->setText($text);
 
