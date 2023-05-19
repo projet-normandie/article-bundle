@@ -110,21 +110,14 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
     }
 
     /**
-     * Set id
-     *
      * @param integer $id
-     * @return $this
      */
-    public function setId(int $id): static
+    public function setId(int $id): void
     {
         $this->id = $id;
-
-        return $this;
     }
 
     /**
-     * Get id
-     *
      * @return integer
      */
     public function getId(): ?int
@@ -133,23 +126,17 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
     }
 
     /**
-     * Set status
-     *
      * @param string $status
-     * @return $this
      */
-    public function setStatus(string $status): static
+    public function setStatus(string $status): void
     {
         $this->status = $status;
         if ($this->status == self::STATUS_PUBLISHED AND $this->getPublishedAt() === null) {
             $this->setPublishedAt(new DateTime());
         }
-        return $this;
     }
 
     /**
-     * Get status
-     *
      * @return string
      */
     public function getStatus(): string
@@ -157,18 +144,12 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
         return $this->status;
     }
 
-
     /**
-     * Set nbComment
-     *
      * @param integer $nbComment
-     * @return $this
      */
-    public function setNbComment(int $nbComment): static
+    public function setNbComment(int $nbComment): void
     {
         $this->nbComment = $nbComment;
-
-        return $this;
     }
 
     /**
@@ -182,7 +163,6 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
     }
 
     /**
-     * Get author
      * @return UserInterface
      */
     public function getAuthor()
@@ -191,19 +171,14 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
     }
 
     /**
-     * Set author
-     *
      * @param $author
-     * @return $this
      */
-    public function setAuthor($author): static
+    public function setAuthor($author): void
     {
         $this->author = $author;
-        return $this;
     }
 
     /**
-     * Get publishedAt
      * @return DateTime
      */
     public function getPublishedAt(): ?DateTime
@@ -212,26 +187,19 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
     }
 
     /**
-     * Set publishedAt
-     *
      * @param DateTime|null $publishedAt
-     * @return $this
      */
-    public function setPublishedAt(?DateTime $publishedAt = null): self
+    public function setPublishedAt(?DateTime $publishedAt = null)
     {
         $this->publishedAt = $publishedAt;
-        return $this;
     }
 
     /**
      * @param string $title
-     * @return $this
      */
-    public function setTitle(string $title): static
+    public function setTitle(string $title)
     {
         $this->translate(null, false)->setTitle($title);
-
-        return $this;
     }
 
     /**
@@ -244,13 +212,10 @@ class Article implements SluggableInterface, TimestampableInterface, Translatabl
 
     /**
      * @param string $text
-     * @return $this
      */
-    public function setText(string $text): static
+    public function setText(string $text)
     {
         $this->translate(null, false)->setText($text);
-
-        return $this;
     }
 
     /**
