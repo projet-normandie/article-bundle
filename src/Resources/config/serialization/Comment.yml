@@ -13,8 +13,10 @@ ProjetNormandie\ArticleBundle\Entity\Comment:
       groups:
         - 'article.comment.read'
         - 'article.comment.post'
+        - 'article.comment.put'
     createdAt:
       groups:
         - 'article.comment.read'
     updatedAt:
-      groups: []
+      groups:
+        - 'article.comment.read'
