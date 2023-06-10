@@ -17,11 +17,12 @@
         "api-platform/core": "^2.7",
         "doctrine/orm": "^2.13",
         "friendsofsymfony/ckeditor-bundle": "^2.1",
+        "knplabs/doctrine-behaviors": "~2.0",
         "symfony/dependency-injection": "^5.4",
         "symfony/event-dispatcher":  "^5.4",
         "symfony/http-kernel": "^5.4",
         "symfony/security-bundle": "^5.4",
-        "knplabs/doctrine-behaviors": "~2.0"
+        "symfony/validator": "^5.4"
     },
     "suggest": {
         "sonata-project/admin-bundle": "To use administration with sonata",

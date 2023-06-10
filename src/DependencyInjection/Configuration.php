@@ -18,14 +18,6 @@ class Configuration implements ConfigurationInterface
     public function getConfigTreeBuilder(): TreeBuilder
     {
         $treeBuilder = new TreeBuilder('projet_normandie_article');
-        $rootNode = $treeBuilder->getRootNode();
-
-        $rootNode
-            ->children()
-                ->scalarNode('default_user_id')->defaultValue(null)->end()
-                ->end()
-            ->end();
-
         return $treeBuilder;
     }
 }

@@ -3,13 +3,31 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false       # Allows optimizing the container by removing unused services; this also means
-        # fetching services directly from the container via $container->get() won't work.
-        # The best practice is to be explicit about your dependencies anyway.
-        bind:
-            $pnDefaultUserId: '%projet_normandie_article.default_user_id%'
+
     ProjetNormandie\ArticleBundle\:
         resource: '../../*'
         exclude: '../../{Admin,DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
-    ProjetNormandie\ArticleBundle\Service\Writer:
-        class: ProjetNormandie\ArticleBundle\Service\Writer
-        arguments: [ '@doctrine.orm.entity_manager' ]
+
+    pn.article.builder.article:
+        class: ProjetNormandie\ArticleBundle\Builder\ArticleBuilder
+        arguments:
+            - '@doctrine.orm.default_entity_manager'
+
+    pn.article.event.entity.comment:
+        class: ProjetNormandie\ArticleBundle\EventListener\Entity\CommentListener
+        arguments:
+            - '@security.helper'
+        tags:
+            - { name: doctrine.orm.entity_listener }
+
+    pn.article.repository.article:
+        class: ProjetNormandie\ArticleBundle\Repository\ArticleRepository
+        factory: [ '@doctrine.orm.dwh_entity_manager', 'getRepository' ]
+        arguments:
+            - ProjetNormandie\ArticleBundle\Entity\Article
+
+    pn.article.repository.comment:
+        class: ProjetNormandie\ArticleBundle\Repository\CommentRepository
+        factory: [ '@doctrine.orm.dwh_entity_manager', 'getRepository' ]
+        arguments:
+            - ProjetNormandie\ArticleBundle\Entity\Comment
