@@ -4,9 +4,16 @@ namespace ProjetNormandie\ArticleBundle\EventListener\Entity;
 
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use ProjetNormandie\ArticleBundle\Entity\Comment;
+use Symfony\Component\Security\Core\Security;
 
 class CommentListener
 {
+    private Security $security;
+
+    public function __construct(Security $security)
+    {
+        $this->security = $security;
+    }
 
     /**
      * @param Comment $comment
@@ -14,6 +21,7 @@ class CommentListener
      */
     public function prePersist(Comment $comment, LifecycleEventArgs $event): void
     {
+        $comment->setUser($this->security->getUser());
         $comment->getArticle()->setNbComment($comment->getArticle()->getNbComment() + 1);
     }
 
