@@ -36,7 +36,6 @@ class Comment implements TimestampableInterface
     private Article $article;
 
     /**
-     * @Assert\NotNull
      * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\UserInterface", fetch="EAGER")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="idUser", referencedColumnName="id", nullable=false)
