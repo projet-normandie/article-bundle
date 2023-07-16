@@ -26,7 +26,7 @@ class ArticleTranslation implements TranslationInterface
      * @Assert\NotNull
      * @ORM\Column(name="title", type="string", length=255, nullable=false)
      */
-    private string $title;
+    private string $title = '';
 
     /**
      * @Assert\NotNull
