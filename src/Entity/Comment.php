@@ -1,132 +1,114 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ProjetNormandie\ArticleBundle\Entity;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
 use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
 use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
-use ApiPlatform\Core\Annotation\ApiResource;
+use ProjetNormandie\ArticleBundle\Repository\CommentRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 
-/**
- * Comment
- * @ORM\Table(name="article_comment")
- * @ORM\Entity(repositoryClass="ProjetNormandie\ArticleBundle\Repository\CommentRepository")
- * @ORM\EntityListeners({"ProjetNormandie\ArticleBundle\EventListener\Entity\CommentListener"})
- * @ApiResource(attributes={"order"={"id"}})
- */
+#[ORM\Table(name:'pna_comment')]
+#[ORM\Entity(repositoryClass: CommentRepository::class)]
+#[ORM\EntityListeners(["ProjetNormandie\ArticleBundle\EventListener\Entity\CommentListener"])]
+#[ApiResource(
+    shortName: 'ArticleComment',
+    order: ['id' => 'ASC'],
+    operations: [
+        new GetCollection(),
+        new Get(),
+        new Post(
+            denormalizationContext: ['groups' => ['comment:insert']],
+            security: 'is_granted("ROLE_USER")'
+        ),
+        new Put(
+            denormalizationContext: ['groups' => ['comment:update']],
+            security: 'is_granted("ROLE_USER") and (object.getUser() == user)'
+        )
+    ],
+    normalizationContext: ['groups' => ['comment:read', 'comment:read','user:read']]
+)]
+#[ApiResource(
+    shortName: 'ArticleComment',
+    uriTemplate: '/articles/{id}/comments',
+    uriVariables: [
+        'id' => new Link(fromClass: Article::class, toProperty: 'article'),
+    ],
+    operations: [ new GetCollection() ],
+    normalizationContext: ['groups' => ['comment:read', 'comment:read','user:read']],
+)]
+
 class Comment implements TimestampableInterface
 {
     use TimestampableTrait;
 
-    /**
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[Groups(['comment:read'])]
+    #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    /**
-     * @Assert\NotNull
-     * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\Article", inversedBy="comments")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idArticle", referencedColumnName="id", nullable=false)
-     * })
-     */
+    #[Groups(['comment:insert'])]
+    #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'comments')]
+    #[ORM\JoinColumn(name:'article_id', referencedColumnName:'id', nullable:false)]
     private Article $article;
 
-    /**
-     * @ORM\ManyToOne(targetEntity="ProjetNormandie\ArticleBundle\Entity\UserInterface", fetch="EAGER")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="idUser", referencedColumnName="id", nullable=false)
-     * })
-     */
+    #[Groups(['comment:read', 'comment:user'])]
+    #[ORM\ManyToOne(targetEntity: UserInterface::class, fetch: 'EAGER')]
+    #[ORM\JoinColumn(name:'user_id', referencedColumnName:'id', nullable:false)]
     private $user;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="text", type="text", nullable=false)
-     */
+    #[Groups(['comment:read', 'comment:insert', 'comment:update'])]
+    #[ORM\Column(type: 'text', nullable: false)]
     private string $text;
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
         return sprintf('comment [%s]', $this->id);
     }
 
-    /**
-     * @param integer $id
-     * @return $this
-     */
-    public function setId(int $id): self
+    public function setId(int $id): void
     {
         $this->id = $id;
-
-        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return Article
-     */
     public function getArticle(): Article
     {
         return $this->article;
     }
 
-    /**
-     * @param Article $article
-     * @return $this
-     */
-    public function setArticle(Article $article): self
+    public function setArticle(Article $article): void
     {
         $this->article = $article;
-        return $this;
     }
 
-    /**
-     * @return UserInterface
-     */
     public function getUser()
     {
         return $this->user;
     }
 
-    /**
-     * @param $user
-     * @return $this
-     */
-    public function setUser($user): self
+    public function setUser($user): void
     {
         $this->user = $user;
-        return $this;
     }
 
-    /**
-     * @param string $text
-     * @return $this
-     */
-    public function setText(string $text): self
+    public function setText(string $text): void
     {
         $this->text = $text;
-
-        return $this;
     }
 
-    /**
-     * @return string
-     */
     public function getText(): string
     {
         return $this->text;

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ProjetNormandie\ArticleBundle\Admin;
 
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
@@ -15,12 +17,9 @@ use Sonata\AdminBundle\Form\Type\ModelAutocompleteType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Form\Type\ModelListType;
 
-/**
- * Administration manager for the Article Bundle.
- */
 class CommentAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'pnarticlebundle_admin_comment';
+    protected $baseRouteName = 'pna_comment_admin';
 
     /**
      * @param RouteCollection $collection
@@ -73,10 +72,9 @@ class CommentAdmin extends AbstractAdmin
             ->add('user', ModelFilter::class, [
                 'label' => 'label.user',
                 'field_type' => ModelAutocompleteType::class,
-                'field_options' => ['property'=>'username'],
+                'field_options' => ['property' => 'username'],
             ])
         ;
-
     }
 
     /**

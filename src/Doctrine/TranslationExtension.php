@@ -1,4 +1,7 @@
 <?php
+
+declare(strict_types=1);
+
 namespace ProjetNormandie\ArticleBundle\Doctrine;
 
 use ApiPlatform\Doctrine\Orm\Extension\QueryCollectionExtensionInterface;
@@ -15,7 +18,7 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
      * @param QueryNameGeneratorInterface $queryNameGenerator
      * @param string                      $resourceClass
      * @param Operation|null              $operation
-     * @param array                       $context
+     * @param array<mixed>                $context
      * @return void
      */
     public function applyToCollection(
@@ -32,9 +35,9 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
      * @param QueryBuilder                $queryBuilder
      * @param QueryNameGeneratorInterface $queryNameGenerator
      * @param string                      $resourceClass
-     * @param array                       $identifiers
+     * @param array<mixed>                $identifiers
      * @param Operation|null              $operation
-     * @param array                       $context
+     * @param array<mixed>                $context
      * @return void
      */
     public function applyToItem(
@@ -44,7 +47,7 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
         array $identifiers,
         Operation $operation = null,
         array $context = []
-    ) : void {
+    ): void {
         $this->addWhere($queryBuilder, $resourceClass);
     }
 

@@ -1,22 +1,8 @@
 ProjetNormandie\ArticleBundle\Entity\Comment:
   attributes:
-    id:
-      groups:
-        - 'article.comment.read'
-    article:
-      groups:
-        - 'article.comment.post'
-    user:
-      groups:
-        - 'article.comment.user'
-    text:
-      groups:
-        - 'article.comment.read'
-        - 'article.comment.post'
-        - 'article.comment.put'
     createdAt:
       groups:
-        - 'article.comment.read'
+        - 'comment:read'
     updatedAt:
       groups:
-        - 'article.comment.read'
+        - 'comment:read'

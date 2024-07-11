@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ProjetNormandie\ArticleBundle\EventListener\Entity;
 
 use Doctrine\Persistence\Event\LifecycleEventArgs;
 use ProjetNormandie\ArticleBundle\Entity\Comment;
-use Symfony\Component\Security\Core\Security;
+use Symfony\Bundle\SecurityBundle\Security;
 
 class CommentListener
 {
