@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ProjetNormandie\ArticleBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
-use DateTime;
+use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -16,24 +18,11 @@ use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use ProjetNormandie\ArticleBundle\Entity\Article;
 use FOS\CKEditorBundle\Form\Type\CKEditorType;
-use Doctrine\ORM\EntityManager;
-use Symfony\Component\Security\Core\Security;
 
-/**
- * Administration manager for the Article Bundle.
- */
 class ArticleAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'pnarticlebundle_admin_article';
-
-    private Security $security;
-
-    public function setSecurity(Security $security)
-    {
-        $this->security = $security;
-    }
+    protected $baseRouteName = 'pna_article_admin';
 
     /**
      * @param RouteCollectionInterface $collection
@@ -75,7 +64,7 @@ class ArticleAdmin extends AbstractAdmin
                 ChoiceType::class,
                 [
                     'label' => 'label.status',
-                    'choices' => Article::getStatusChoices(),
+                    'choices' => ArticleStatus::getStatusChoices(),
                 ]
             )
             ->add('publishedAt', DateTimeType::class, [
@@ -105,7 +94,9 @@ class ArticleAdmin extends AbstractAdmin
     {
         $filter
             ->add(
-                'author', ModelFilter::class, [
+                'author',
+                ModelFilter::class,
+                [
                     'label' => 'label.author',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => ['property' => 'username'],
@@ -129,7 +120,7 @@ class ArticleAdmin extends AbstractAdmin
                 [
                     'label' => 'label.status',
                     'editable' => false,
-                    'choices' => Article::getStatusChoices(),
+                    'choices' => ArticleStatus::getStatusChoices(),
                 ]
             )
             ->add('createdAt', null, ['label' => 'label.createdAt'])
@@ -155,33 +146,5 @@ class ArticleAdmin extends AbstractAdmin
             ->add('status', null, ['label' => 'label.status'])
             ->add('getDefaultTitle', null, ['label' => 'label.title'])
             ->add('getDefaultText', null, ['label' => 'label.text', 'safe' => true]);
-    }
-
-
-    /**
-     * @param object $object
-     */
-    public function prePersist(object $object): void
-    {
-        $object->setAuthor($this->security->getUser());
-        if ($object->getStatus() === Article::STATUS_PUBLISHED) {
-            $object->setPublishedAt(new DateTime());
-        }
-    }
-
-    /**
-     * @param object $object
-     */
-    public function preUpdate(object $object): void
-    {
-        /** @var EntityManager $em */
-        $em = $this->getModelManager()->getEntityManager($this->getClass());
-        $originalObject = $em->getUnitOfWork()->getOriginalEntityData($object);
-
-        // PUBLISHED
-        if ($originalObject['status'] === Article::STATUS_UNDER_CONSTRUCTION
-            && $object->getStatus() === Article::STATUS_PUBLISHED) {
-            $object->setPublishedAt(new DateTime());
-        }
     }
 }

@@ -1,17 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
 namespace ProjetNormandie\ArticleBundle\Builder;
 
 use Doctrine\ORM\EntityManagerInterface;
-use ProjetNormandie\ArticleBundle\Contracts\ArticleInterface;
 use ProjetNormandie\ArticleBundle\Entity\Article;
+use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
 
-class ArticleBuilder implements ArticleInterface
+class ArticleBuilder
 {
     private $author;
 
+    /**
+     * @var string[]
+     */
     private array $titles;
 
+    /**
+     * @var string[]
+     */
     private array $texts;
 
     private EntityManagerInterface $em;
@@ -56,11 +64,11 @@ class ArticleBuilder implements ArticleInterface
         return $this;
     }
 
-    public function send()
+    public function send(): void
     {
         $article = new Article();
         $article->setAuthor($this->author);
-        $article->setStatus(self::STATUS_PUBLISHED);
+        $article->setStatus(ArticleStatus::PUBLISHED);
         $article->setPublishedAt(new \Datetime());
 
         foreach ($this->titles as $lang => $value) {

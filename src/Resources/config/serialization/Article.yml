@@ -1,31 +1,11 @@
 ProjetNormandie\ArticleBundle\Entity\Article:
   attributes:
-    id:
-      groups:
-        - 'article.read'
-    author:
-      groups:
-        - 'article.author'
-        - 'article.read'
-    title:
-      groups:
-        - 'article.read'
     slug:
       groups:
-        - 'article.read'
-    text:
-      groups:
-        - 'article.read'
-    status:
-      groups:
-        - 'article.read'
-    nbComment:
-      groups:
-        - 'article.read'
+        - 'article:read'
     createdAt:
-      groups: []
-    updatedAt:
-      groups: []
-    publishedAt:
       groups:
-        - 'article.read'
+        - 'article:read'
+    updatedAt:
+      groups:
+        - 'article:read'
