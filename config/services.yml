@@ -16,3 +16,9 @@ services:
     class: ProjetNormandie\ArticleBundle\EventListener\Entity\CommentListener
     tags:
       - { name: doctrine.orm.entity_listener }
+
+  pn.article.builder.article:
+    class: ProjetNormandie\ArticleBundle\Builder\ArticleBuilder
+    arguments:
+      - '@doctrine.orm.default_entity_manager'
+
