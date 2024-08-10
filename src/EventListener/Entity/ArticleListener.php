@@ -16,7 +16,9 @@ class ArticleListener
 
     public function prePersist(Article $article): void
     {
-        $article->setAuthor($this->security->getUser());
+        if (null === $article->getAuthor()) {
+            $article->setAuthor($this->security->getUser());
+        }
         if ($article->getArticleStatus()->isPublished()) {
             $article->setPublishedAt(new \DateTime());
         }
