@@ -15,8 +15,7 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 use ProjetNormandie\ArticleBundle\Repository\ArticleRepository;
 use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
 use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableMethodsTrait;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatablePropertiesTrait;
+use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
 use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
 use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -43,8 +42,7 @@ use DateTime;
 class Article implements SluggableInterface, TranslatableInterface
 {
     use TimestampableEntity;
-    use TranslatablePropertiesTrait;
-    use TranslatableMethodsTrait;
+    use TranslatableTrait;
     use SluggableTrait;
 
     #[Groups(['article:read'])]
