@@ -8,11 +8,11 @@ use Webmozart\Assert\Assert;
 
 class ArticleStatus
 {
-    public const UNDER_CONSTRUCTION = 'UNDER CONSTRUCTION';
-    public const PUBLISHED = 'PUBLISHED';
-    public const CANCELED = 'CANCELED';
+    public const string UNDER_CONSTRUCTION = 'UNDER CONSTRUCTION';
+    public const string PUBLISHED = 'PUBLISHED';
+    public const string CANCELED = 'CANCELED';
 
-    public const VALUES = [
+    public const array VALUES = [
         self::UNDER_CONSTRUCTION,
         self::PUBLISHED,
         self::CANCELED,

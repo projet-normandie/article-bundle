@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace ProjetNormandie\ArticleBundle\Admin;
 
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use ProjetNormandie\ArticleBundle\Form\Type\RichTextEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -52,13 +52,9 @@ class CommentAdmin extends AbstractAdmin
                 'btn_catalogue' => false,
                 'label' => 'label.article',
             ])
-            ->add('text', CKEditorType::class, [
+            ->add('text', RichTextEditorType::class, [
                 'label' => 'label.message',
                 'required' => true,
-                'config' => array(
-                    'height' => '200',
-                    'toolbar' => 'standard'
-                ),
             ]);
     }
 
