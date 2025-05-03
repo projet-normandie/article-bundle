@@ -10,9 +10,17 @@ use ApiPlatform\Doctrine\Orm\Util\QueryNameGeneratorInterface;
 use ApiPlatform\Metadata\Operation;
 use Doctrine\ORM\QueryBuilder;
 use ProjetNormandie\ArticleBundle\Entity\Article;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 final class TranslationExtension implements QueryCollectionExtensionInterface, QueryItemExtensionInterface
 {
+    private RequestStack $requestStack;
+
+    public function __construct(RequestStack $requestStack)
+    {
+        $this->requestStack = $requestStack;
+    }
+
     public function applyToCollection(
         QueryBuilder $queryBuilder,
         QueryNameGeneratorInterface $queryNameGenerator,
@@ -34,16 +42,23 @@ final class TranslationExtension implements QueryCollectionExtensionInterface, Q
         $this->addWhere($queryBuilder, $resourceClass);
     }
 
-    /**
-     * @param QueryBuilder $queryBuilder
-     * @param string       $resourceClass
-     */
     private function addWhere(QueryBuilder $queryBuilder, string $resourceClass): void
     {
         if ($resourceClass != Article::class) {
             return;
         }
-        $queryBuilder->leftJoin('o.translations', 't')
+
+        // Joindre les traductions
+        $rootAlias = $queryBuilder->getRootAliases()[0];
+        $queryBuilder->leftJoin($rootAlias . '.translations', 't')
             ->addSelect('t');
+
+        // Si vous voulez filtrer par locale, vous pouvez le faire ici
+        $request = $this->requestStack->getCurrentRequest();
+        if ($request && $locale = $request->getLocale()) {
+            // Optionnel : filtrer par locale courante
+            // $queryBuilder->andWhere('t.locale = :locale')
+            //     ->setParameter('locale', $locale);
+        }
     }
 }
