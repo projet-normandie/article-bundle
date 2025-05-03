@@ -22,7 +22,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ORM\EntityListeners(["ProjetNormandie\ArticleBundle\EventListener\Entity\CommentListener"])]
 #[ApiResource(
     shortName: 'ArticleComment',
-    order: ['id' => 'ASC'],
     operations: [
         new GetCollection(),
         new Get(),
@@ -35,16 +34,17 @@ use Symfony\Component\Validator\Constraints as Assert;
             security: 'is_granted("ROLE_USER") and (object.getUser() == user)'
         )
     ],
-    normalizationContext: ['groups' => ['comment:read', 'comment:read','user:read']]
+    normalizationContext: ['groups' => ['comment:read', 'user:read']],
+    order: ['id' => 'ASC']
 )]
 #[ApiResource(
-    shortName: 'ArticleComment',
     uriTemplate: '/articles/{id}/comments',
-    uriVariables: [
-        'id' => new Link(fromClass: Article::class, toProperty: 'article'),
-    ],
+    shortName: 'ArticleComment',
     operations: [ new GetCollection() ],
-    normalizationContext: ['groups' => ['comment:read', 'comment:read','user:read']],
+    uriVariables: [
+        'id' => new Link(toProperty: 'article', fromClass: Article::class),
+    ],
+    normalizationContext: ['groups' => ['comment:read', 'user:read']],
 )]
 
 class Comment implements TimestampableInterface

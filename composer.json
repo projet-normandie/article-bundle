@@ -12,14 +12,12 @@
         }
     ],
     "require": {
-        "php": "^8.1",
+        "php": "^8.3",
         "a2lix/translation-form-bundle": "~3.0",
         "api-platform/doctrine-orm": "^4.0",
         "api-platform/symfony": "^4.0",
-        "doctrine/orm": "^2.5",
-        "friendsofsymfony/ckeditor-bundle": "^2.1",
+        "doctrine/orm": "^3.3",
         "gedmo/doctrine-extensions": "^3.11",
-        "knplabs/doctrine-behaviors": "~2.0",
         "sonata-project/admin-bundle": "^4.0",
         "sonata-project/doctrine-orm-admin-bundle": "^4.8",
         "symfony/dependency-injection": "^6.4 | ^7.2",

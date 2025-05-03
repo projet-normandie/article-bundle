@@ -6,6 +6,7 @@ namespace ProjetNormandie\ArticleBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
 use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
+use ProjetNormandie\ArticleBundle\Form\Type\RichTextEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
 use Sonata\AdminBundle\Show\ShowMapper;
@@ -24,9 +25,6 @@ class ArticleAdmin extends AbstractAdmin
 {
     protected $baseRouteName = 'pna_article_admin';
 
-    /**
-     * @param RouteCollectionInterface $collection
-     */
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
         $collection->remove('export');
@@ -39,10 +37,6 @@ class ArticleAdmin extends AbstractAdmin
         $sortValues['_sort_by'] = 'id';
     }
 
-    /**
-     * @param ProxyQueryInterface $query
-     * @return ProxyQueryInterface
-     */
     protected function configureQuery(ProxyQueryInterface $query): ProxyQueryInterface
     {
         $query = parent::configureQuery($query);
@@ -51,14 +45,15 @@ class ArticleAdmin extends AbstractAdmin
         return $query;
     }
 
-
-    /**
-     * @param FormMapper $form
-     */
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('id', TextType::class, ['label' => 'label.id', 'attr' => ['readonly' => true]])
+            ->add('id', TextType::class, [
+                'label' => 'label.id',
+                'attr' => ['readonly' => true],
+                'required' => false,
+                'disabled' => true
+            ])
             ->add(
                 'status',
                 ChoiceType::class,
@@ -73,23 +68,20 @@ class ArticleAdmin extends AbstractAdmin
                 'years' => range(2004, date('Y'))
             ])
             ->add('translations', TranslationsType::class, [
-                'required' => true,
+                'label' => false,
                 'fields' => [
                     'title' => [
                         'field_type' => TextType::class,
                         'label' => 'label.title',
                     ],
                     'text' => [
-                        'field_type' => CKEditorType::class,
+                        'field_type' => RichTextEditorType::class,
                         'label' => 'label.text',
                     ]
                 ]
             ]);
     }
 
-    /**
-     * @param DatagridMapper $filter
-     */
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
@@ -106,9 +98,6 @@ class ArticleAdmin extends AbstractAdmin
             ->add('status', null, ['label' => 'label.status']);
     }
 
-    /**
-     * @param ListMapper $list
-     */
     protected function configureListFields(ListMapper $list): void
     {
         $list->addIdentifier('id', null, ['label' => 'label.id'])
@@ -124,7 +113,8 @@ class ArticleAdmin extends AbstractAdmin
                 ]
             )
             ->add('createdAt', null, ['label' => 'label.createdAt'])
-            ->add('published_at', 'datetime', ['label' => 'label.publishedAt'])
+            ->add('updatedAt', null, ['label' => 'label.createdAt'])
+            ->add('publishedAt', 'datetime', ['label' => 'label.publishedAt'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -136,9 +126,6 @@ class ArticleAdmin extends AbstractAdmin
             ]);
     }
 
-    /**
-     * @param ShowMapper $show
-     */
     protected function configureShowFields(ShowMapper $show): void
     {
         $show

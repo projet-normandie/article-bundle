@@ -9,15 +9,12 @@ use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Get;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use ProjetNormandie\ArticleBundle\Repository\ArticleRepository;
 use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
-use Knp\DoctrineBehaviors\Contract\Entity\TranslatableInterface;
-use Knp\DoctrineBehaviors\Model\Translatable\TranslatableTrait;
-use Knp\DoctrineBehaviors\Contract\Entity\SluggableInterface;
-use Knp\DoctrineBehaviors\Model\Sluggable\SluggableTrait;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
@@ -26,12 +23,12 @@ use DateTime;
 #[ORM\Entity(repositoryClass: ArticleRepository::class)]
 #[ORM\EntityListeners(["ProjetNormandie\ArticleBundle\EventListener\Entity\ArticleListener"])]
 #[ApiResource(
-    order: ['publishedAt' => 'DESC'],
     operations: [
         new GetCollection(),
         new Get(),
     ],
-    normalizationContext: ['groups' => ['article:read', 'article:author', 'user:read']]
+    normalizationContext: ['groups' => ['article:read', 'article:author', 'user:read']],
+    order: ['publishedAt' => 'DESC']
 )]
 #[ApiFilter(
     SearchFilter::class,
@@ -39,11 +36,9 @@ use DateTime;
         'status' => 'exact',
     ]
 )]
-class Article implements SluggableInterface, TranslatableInterface
+class Article
 {
     use TimestampableEntity;
-    use TranslatableTrait;
-    use SluggableTrait;
 
     #[Groups(['article:read'])]
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
@@ -65,8 +60,30 @@ class Article implements SluggableInterface, TranslatableInterface
     #[ORM\Column(nullable: true)]
     private ?DateTime $publishedAt = null;
 
-    #[ORM\OneToMany(targetEntity: Comment::class, mappedBy: 'article')]
+    #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
     private Collection $comments;
+
+    #[ORM\OneToMany(
+        mappedBy: 'translatable',
+        targetEntity: ArticleTranslation::class,
+        cascade: ['persist', 'remove'],
+        fetch: 'EAGER',
+        orphanRemoval: true,
+        indexBy: 'locale'
+    )]
+    private Collection $translations;
+
+    #[Groups(['article:read'])]
+    #[ORM\Column(length: 255, unique: false)]
+    private ?string $slug = null;
+
+    private ?string $currentLocale = null;
+
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->translations = new ArrayCollection();
+    }
 
     public function __toString()
     {
@@ -75,12 +92,12 @@ class Article implements SluggableInterface, TranslatableInterface
 
     public function getDefaultTitle(): string
     {
-        return $this->translate('en', false)->getTitle();
+        return $this->getTitle('en') ?: 'Untitled';
     }
 
     public function getDefaultText(): string
     {
-        return $this->translate('en', false)->getText();
+        return $this->getText('en') ?: '';
     }
 
     public function setId(int $id): void
@@ -138,28 +155,6 @@ class Article implements SluggableInterface, TranslatableInterface
         $this->publishedAt = $publishedAt;
     }
 
-    public function setTitle(string $title): void
-    {
-        $this->translate(null, false)->setTitle($title);
-    }
-
-    #[Groups(['article:read'])]
-    public function getTitle(): string
-    {
-        return $this->translate(null, false)->getTitle();
-    }
-
-    public function setText(string $text): void
-    {
-        $this->translate(null, false)->setText($text);
-    }
-
-    #[Groups(['article:read'])]
-    public function getText(): string
-    {
-        return $this->translate(null, false)->getText();
-    }
-
     public function setComments(Collection $comments): void
     {
         $this->comments = $comments;
@@ -170,8 +165,96 @@ class Article implements SluggableInterface, TranslatableInterface
         return $this->comments;
     }
 
-    public function getSluggableFields(): array
+    public function getSlug(): ?string
     {
-        return ['defaultTitle'];
+        return $this->slug;
+    }
+
+    public function setSlug(string $slug): void
+    {
+        $this->slug = $slug;
+    }
+
+    // Translation methods for A2lix compatibility
+    public function getTranslations(): Collection
+    {
+        return $this->translations;
+    }
+
+    public function setTranslations(Collection $translations): self
+    {
+        $this->translations = $translations;
+        return $this;
+    }
+
+    public function addTranslation(ArticleTranslation $translation): self
+    {
+        if (!$this->translations->contains($translation)) {
+            $translation->setTranslatable($this);
+            $this->translations->set($translation->getLocale(), $translation);
+        }
+
+        return $this;
+    }
+
+    public function removeTranslation(ArticleTranslation $translation): self
+    {
+        if ($this->translations->removeElement($translation)) {
+            $translation->setTranslatable(null);
+        }
+
+        return $this;
+    }
+
+    public function translate(?string $locale = null, bool $fallbackToDefault = true): ArticleTranslation
+    {
+        $locale = $locale ?: $this->currentLocale ?: 'en';
+
+        if (!$this->translations->containsKey($locale)) {
+            $translation = new ArticleTranslation();
+            $translation->setTranslatable($this);
+            $translation->setLocale($locale);
+            $this->translations->set($locale, $translation);
+        }
+
+        return $this->translations->get($locale);
+    }
+
+    public function setCurrentLocale(string $locale): void
+    {
+        $this->currentLocale = $locale;
+    }
+
+    public function getCurrentLocale(): ?string
+    {
+        return $this->currentLocale;
+    }
+
+    public function setTitle(string $title, ?string $locale = null): void
+    {
+        $this->translate($locale)->setTitle($title);
+    }
+
+    #[Groups(['article:read'])]
+    public function getTitle(?string $locale = null): ?string
+    {
+        return $this->translate($locale)->getTitle();
+    }
+
+    public function setText(string $text, ?string $locale = null): void
+    {
+        $this->translate($locale)->setText($text);
+    }
+
+    #[Groups(['article:read'])]
+    public function getText(?string $locale = null): ?string
+    {
+        return $this->translate($locale)->getText();
+    }
+
+    // Old methods for backward compatibility
+    public function mergeNewTranslations(): void
+    {
+        // Not needed anymore
     }
 }
