@@ -120,7 +120,7 @@ class ArticleAdmin extends AbstractAdmin
                     'show' => [],
                     'edit' => [],
                     'groups' => [
-                        'template' => '@ProjetNormandieArticle/Admin/article_comments_link.html.twig'
+                        'template' => '@ProjetNormandieArticle/admin/article_comments_link.html.twig'
                     ],
                 ]
             ]);

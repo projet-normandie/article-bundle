@@ -65,6 +65,15 @@ class CommentAdmin extends AbstractAdmin
     {
         $filter
             ->add('article.translations.title', null, ['label' => 'label.title'])
+            ->add(
+                'article',
+                ModelFilter::class,
+                [
+                    'label' => 'label.article',
+                    'field_type' => ModelAutocompleteType::class,
+                    'field_options' => ['property' => 'title'],
+                ]
+            )
             ->add('user', ModelFilter::class, [
                 'label' => 'label.user',
                 'field_type' => ModelAutocompleteType::class,
