@@ -5,13 +5,22 @@ declare(strict_types=1);
 namespace ProjetNormandie\ArticleBundle\EventListener\Entity;
 
 use Datetime;
-use Doctrine\ORM\Event\PreUpdateEventArgs;
+use Doctrine\ORM\Event\PostUpdateEventArgs;
 use ProjetNormandie\ArticleBundle\Entity\ArticleTranslation;
 
-readonly class ArticleTranslationListener
+class ArticleTranslationListener
 {
-    public function preUpdate(ArticleTranslation $translation, PreUpdateEventArgs $event): void
+    public function postUpdate(ArticleTranslation $translation, PostUpdateEventArgs $event): void
     {
-        $translation->getTranslatable()->setUpdatedAt(new Datetime());
+        $article = $translation->getTranslatable();
+
+        if ($article !== null) {
+            $em = $event->getObjectManager();
+
+            $article->setUpdatedAt(new DateTime());
+
+            $em->persist($article);
+            $em->flush();
+        }
     }
 }

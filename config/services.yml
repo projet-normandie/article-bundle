@@ -24,8 +24,6 @@ services:
 
   pn.article.event.entity.article_translation:
     class: ProjetNormandie\ArticleBundle\EventListener\Entity\ArticleTranslationListener
-    arguments:
-      - '@slugger'
     tags:
       - { name: doctrine.orm.entity_listener }
 
