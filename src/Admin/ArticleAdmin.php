@@ -74,9 +74,9 @@ class ArticleAdmin extends AbstractAdmin
                         'field_type' => TextType::class,
                         'label' => 'label.title',
                     ],
-                    'text' => [
+                    'content' => [
                         'field_type' => RichTextEditorType::class,
-                        'label' => 'label.text',
+                        'label' => 'label.content',
                     ]
                 ]
             ]);
@@ -113,7 +113,6 @@ class ArticleAdmin extends AbstractAdmin
                 ]
             )
             ->add('createdAt', null, ['label' => 'label.createdAt'])
-            ->add('updatedAt', null, ['label' => 'label.createdAt'])
             ->add('publishedAt', 'datetime', ['label' => 'label.publishedAt'])
             ->add('_action', 'actions', [
                 'actions' => [

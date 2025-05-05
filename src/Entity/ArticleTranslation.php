@@ -29,7 +29,7 @@ class ArticleTranslation
 
     #[Assert\NotBlank]
     #[ORM\Column(type: 'text', nullable: false)]
-    private string $text = '';
+    private string $content = '';
 
     public function __toString(): string
     {
@@ -71,13 +71,13 @@ class ArticleTranslation
         $this->title = $title;
     }
 
-    public function getText(): string
+    public function getContent(): string
     {
-        return $this->text;
+        return $this->content;
     }
 
-    public function setText(string $text): void
+    public function setContent(string $content): void
     {
-        $this->text = $text;
+        $this->content = $content;
     }
 }
