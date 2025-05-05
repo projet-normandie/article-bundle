@@ -95,9 +95,9 @@ class Article
         return $this->getTitle('en') ?: 'Untitled';
     }
 
-    public function getDefaultText(): string
+    public function getDefaultContent(): string
     {
-        return $this->getText('en') ?: '';
+        return $this->getContent('en') ?: '';
     }
 
     public function setId(int $id): void
@@ -241,16 +241,17 @@ class Article
         return $this->translate($locale)->getTitle();
     }
 
-    public function setText(string $text, ?string $locale = null): void
+    public function setContent(string $content, ?string $locale = null): void
     {
-        $this->translate($locale)->setText($text);
+        $this->translate($locale)->setContent($content);
     }
 
     #[Groups(['article:read'])]
-    public function getText(?string $locale = null): ?string
+    public function getContent(?string $locale = null): ?string
     {
-        return $this->translate($locale)->getText();
+        return $this->translate($locale)->getContent();
     }
+
 
     // Old methods for backward compatibility
     public function mergeNewTranslations(): void
