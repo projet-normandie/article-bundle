@@ -82,7 +82,7 @@ $builder = $container->get('pn.article.builder.article');
 $builder
     ->setAuthor($user)
     ->setTitle('Title', 'en')
-    ->setText('Content', 'en')
+    ->setContent('Content', 'en')
     ->send();
 ```
 
