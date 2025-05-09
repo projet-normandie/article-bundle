@@ -60,9 +60,13 @@ class Article
     #[ORM\Column(nullable: true)]
     private ?DateTime $publishedAt = null;
 
+    /**
+     * @var Collection<Comment>
+     */
     #[ORM\OneToMany(mappedBy: 'article', targetEntity: Comment::class)]
     private Collection $comments;
 
+    /** @var Collection<ArticleTranslation> */
     #[ORM\OneToMany(
         mappedBy: 'translatable',
         targetEntity: ArticleTranslation::class,
@@ -75,7 +79,7 @@ class Article
 
     #[Groups(['article:read'])]
     #[ORM\Column(length: 255, unique: false)]
-    private ?string $slug = null;
+    private string $slug;
 
     private ?string $currentLocale = null;
 
