@@ -26,7 +26,9 @@ class CommentAdmin extends AbstractAdmin
      */
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
-        $collection->remove('export');
+        $collection
+            ->remove('create')
+            ->remove('export');
     }
 
     /**
@@ -52,8 +54,8 @@ class CommentAdmin extends AbstractAdmin
                 'btn_catalogue' => false,
                 'label' => 'label.article',
             ])
-            ->add('text', RichTextEditorType::class, [
-                'label' => 'label.message',
+            ->add('content', RichTextEditorType::class, [
+                'label' => 'label.content',
                 'required' => true,
             ]);
     }
@@ -108,6 +110,6 @@ class CommentAdmin extends AbstractAdmin
             ->add('id', null, ['label' => 'label.id'])
             ->add('user', null, ['label' => 'label.user'])
             ->add('article', null, ['label' => 'label.article'])
-            ->add('text', null, ['label' => 'label.text', 'safe' => true]);
+            ->add('content', null, ['label' => 'label.content', 'safe' => true]);
     }
 }
