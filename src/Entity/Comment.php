@@ -11,8 +11,7 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use Doctrine\ORM\Mapping as ORM;
-use Knp\DoctrineBehaviors\Contract\Entity\TimestampableInterface;
-use Knp\DoctrineBehaviors\Model\Timestampable\TimestampableTrait;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 use ProjetNormandie\ArticleBundle\Repository\CommentRepository;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -47,9 +46,9 @@ use Symfony\Component\Validator\Constraints as Assert;
     normalizationContext: ['groups' => ['comment:read', 'user:read']],
 )]
 
-class Comment implements TimestampableInterface
+class Comment
 {
-    use TimestampableTrait;
+    use TimestampableEntity;
 
     #[Groups(['comment:read'])]
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
@@ -67,7 +66,7 @@ class Comment implements TimestampableInterface
 
     #[Groups(['comment:read', 'comment:insert', 'comment:update'])]
     #[ORM\Column(type: 'text', nullable: false)]
-    private string $text;
+    private string $content;
 
     public function __toString()
     {
@@ -104,13 +103,13 @@ class Comment implements TimestampableInterface
         $this->user = $user;
     }
 
-    public function setText(string $text): void
+    public function getContent(): string
     {
-        $this->text = $text;
+        return $this->content;
     }
 
-    public function getText(): string
+    public function setContent(string $content): void
     {
-        return $this->text;
+        $this->content = $content;
     }
 }
