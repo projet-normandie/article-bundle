@@ -20,7 +20,7 @@ class ArticleBuilder
     /**
      * @var string[]
      */
-    private array $texts = [];
+    private array $contents = [];
 
     private EntityManagerInterface $em;
 
@@ -41,9 +41,9 @@ class ArticleBuilder
         return $this;
     }
 
-    public function setText(string $text, string $lang): ArticleBuilder
+    public function setContent(string $content, string $lang): ArticleBuilder
     {
-        $this->texts[$lang] = $text;
+        $this->contents[$lang] = $content;
         return $this;
     }
 
@@ -57,8 +57,8 @@ class ArticleBuilder
         foreach ($this->titles as $lang => $value) {
             $article->setTitle($value, $lang);
         }
-        foreach ($this->texts as $lang => $value) {
-            $article->setText($value, $lang);
+        foreach ($this->contents as $lang => $value) {
+            $article->setContent($value, $lang);
         }
 
         $this->em->persist($article);
