@@ -37,14 +37,14 @@ class CommentAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void
     {
         $form
-            ->add('id', TextType::class, ['label' => 'label.id', 'attr' => ['readonly' => true]])
+            ->add('id', TextType::class, ['label' => 'comment.form.id', 'attr' => ['readonly' => true]])
             ->add('user', ModelListType::class, [
                 'btn_add' => false,
                 'btn_list' => false,
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'label.user',
+                'label' => 'comment.form.user',
              ])
             ->add('article', ModelListType::class, [
                 'btn_add' => false,
@@ -52,10 +52,10 @@ class CommentAdmin extends AbstractAdmin
                 'btn_edit' => false,
                 'btn_delete' => false,
                 'btn_catalogue' => false,
-                'label' => 'label.article',
+                'label' => 'comment.form.article',
             ])
             ->add('content', RichTextEditorType::class, [
-                'label' => 'label.content',
+                'label' => 'comment.form.content',
                 'required' => true,
             ]);
     }
@@ -66,18 +66,9 @@ class CommentAdmin extends AbstractAdmin
     protected function configureDatagridFilters(DatagridMapper $filter): void
     {
         $filter
-            ->add('article.translations.title', null, ['label' => 'label.title'])
-            ->add(
-                'article',
-                ModelFilter::class,
-                [
-                    'label' => 'label.article',
-                    'field_type' => ModelAutocompleteType::class,
-                    'field_options' => ['property' => 'title'],
-                ]
-            )
+            ->add('article.translations.title', null, ['label' => 'comment.filter.article'])
             ->add('user', ModelFilter::class, [
-                'label' => 'label.user',
+                'label' => 'comment.filter.user',
                 'field_type' => ModelAutocompleteType::class,
                 'field_options' => ['property' => 'username'],
             ])
@@ -89,10 +80,10 @@ class CommentAdmin extends AbstractAdmin
      */
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('article', null, ['label' => 'label.article'])
-            ->add('user', null, ['label' => 'label.user'])
-            ->add('createdAt', null, ['label' => 'label.createdAt'])
+        $list->addIdentifier('id', null, ['label' => 'comment.list.id'])
+            ->add('article', null, ['label' => 'comment.list.article'])
+            ->add('user', null, ['label' => 'comment.list.user'])
+            ->add('createdAt', null, ['label' => 'comment.list.created_at'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -107,9 +98,9 @@ class CommentAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('user', null, ['label' => 'label.user'])
-            ->add('article', null, ['label' => 'label.article'])
-            ->add('content', null, ['label' => 'label.content', 'safe' => true]);
+            ->add('id', null, ['label' => 'comment.show.id'])
+            ->add('user', null, ['label' => 'comment.show.user'])
+            ->add('article', null, ['label' => 'comment.show.article'])
+            ->add('content', null, ['label' => 'comment.show.content', 'safe' => true]);
     }
 }

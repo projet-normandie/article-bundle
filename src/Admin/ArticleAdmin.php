@@ -49,7 +49,7 @@ class ArticleAdmin extends AbstractAdmin
     {
         $form
             ->add('id', TextType::class, [
-                'label' => 'label.id',
+                'label' => 'article.form.id',
                 'attr' => ['readonly' => true],
                 'required' => false,
                 'disabled' => true
@@ -58,12 +58,12 @@ class ArticleAdmin extends AbstractAdmin
                 'status',
                 ChoiceType::class,
                 [
-                    'label' => 'label.status',
+                    'label' => 'article.form.status',
                     'choices' => ArticleStatus::getStatusChoices(),
                 ]
             )
             ->add('publishedAt', DateTimeType::class, [
-                'label' => 'label.publishedAt',
+                'label' => 'article.form.published_at',
                 'required' => false,
                 'years' => range(2004, date('Y'))
             ])
@@ -72,11 +72,11 @@ class ArticleAdmin extends AbstractAdmin
                 'fields' => [
                     'title' => [
                         'field_type' => TextType::class,
-                        'label' => 'label.title',
+                        'label' => 'Title',
                     ],
                     'content' => [
                         'field_type' => RichTextEditorType::class,
-                        'label' => 'label.content',
+                        'label' => 'Content',
                     ]
                 ]
             ]);
@@ -89,31 +89,31 @@ class ArticleAdmin extends AbstractAdmin
                 'author',
                 ModelFilter::class,
                 [
-                    'label' => 'label.author',
+                    'label' => 'article.filter.author',
                     'field_type' => ModelAutocompleteType::class,
                     'field_options' => ['property' => 'username'],
                 ]
             )
-            ->add('translations.title', null, ['label' => 'label.title'])
-            ->add('status', null, ['label' => 'label.status']);
+            ->add('translations.title', null, ['label' => 'article.filter.title'])
+            ->add('status', null, ['label' => 'article.filter.status']);
     }
 
     protected function configureListFields(ListMapper $list): void
     {
-        $list->addIdentifier('id', null, ['label' => 'label.id'])
-            ->add('getDefaultTitle', null, ['label' => 'label.title'])
-            ->add('author', null, ['label' => 'label.author'])
+        $list->addIdentifier('id', null, ['label' => 'article.list.id'])
+            ->add('getDefaultTitle', null, ['label' => 'article.list.title'])
+            ->add('author', null, ['label' => 'article.list.author'])
             ->add(
                 'status',
                 'choice',
                 [
-                    'label' => 'label.status',
+                    'label' => 'article.list.status',
                     'editable' => false,
                     'choices' => ArticleStatus::getStatusChoices(),
                 ]
             )
-            ->add('createdAt', null, ['label' => 'label.createdAt'])
-            ->add('publishedAt', 'datetime', ['label' => 'label.publishedAt'])
+            ->add('createdAt', null, ['label' => 'article.list.created_at'])
+            ->add('publishedAt', 'datetime', ['label' => 'article.list.published_at'])
             ->add('_action', 'actions', [
                 'actions' => [
                     'show' => [],
@@ -128,9 +128,9 @@ class ArticleAdmin extends AbstractAdmin
     protected function configureShowFields(ShowMapper $show): void
     {
         $show
-            ->add('id', null, ['label' => 'label.id'])
-            ->add('status', null, ['label' => 'label.status'])
-            ->add('getDefaultTitle', null, ['label' => 'label.title'])
-            ->add('getDefaultText', null, ['label' => 'label.text', 'safe' => true]);
+            ->add('id', null, ['label' => 'article.show.id'])
+            ->add('status', null, ['label' => 'article.show.status'])
+            ->add('title', null, ['label' => 'article.show.title'])
+            ->add('content', null, ['label' => 'article.show.content', 'safe' => true]);
     }
 }

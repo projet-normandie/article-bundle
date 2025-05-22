@@ -185,29 +185,22 @@ class Article
         return $this->translations;
     }
 
-    public function setTranslations(Collection $translations): self
+    public function setTranslations(Collection $translations): void
     {
         $this->translations = $translations;
-        return $this;
     }
 
-    public function addTranslation(ArticleTranslation $translation): self
+    public function addTranslation(ArticleTranslation $translation): void
     {
         if (!$this->translations->contains($translation)) {
             $translation->setTranslatable($this);
             $this->translations->set($translation->getLocale(), $translation);
         }
-
-        return $this;
     }
 
-    public function removeTranslation(ArticleTranslation $translation): self
+    public function removeTranslation(ArticleTranslation $translation): void
     {
-        if ($this->translations->removeElement($translation)) {
-            $translation->setTranslatable(null);
-        }
-
-        return $this;
+        $this->translations->removeElement($translation);
     }
 
     public function translate(?string $locale = null, bool $fallbackToDefault = true): ArticleTranslation

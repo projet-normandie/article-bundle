@@ -6,7 +6,10 @@ services:
         model_class: ProjetNormandie\ArticleBundle\Entity\Article
         manager_type: orm
         group: "group.articles"
-        label: "label.article"
+        label: "article.label"
+        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+    calls:
+      - [ setTranslationDomain, [ 'PnArticle' ] ]
   sonata.admin.article.comment:
     class: ProjetNormandie\ArticleBundle\Admin\CommentAdmin
     tags:
@@ -14,4 +17,7 @@ services:
         model_class: ProjetNormandie\ArticleBundle\Entity\Comment
         manager_type: orm
         group: "group.articles"
-        label: "label.comment"
+        label: "comment.label"
+        label_translator_strategy: "sonata.admin.label.strategy.underscore"
+    calls:
+      - [ setTranslationDomain, [ 'PnArticle' ] ]

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ProjetNormandie\ArticleBundle\DataFixtures;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\Persistence\ObjectManager;
 use Exception;
 use ProjetNormandie\ArticleBundle\Entity\Article;
@@ -47,7 +47,7 @@ class ArticleFixtures extends Fixture
     {
         foreach ($this->entities as $entity) {
             $metadata = $manager->getClassMetaData("VideoGamesRecords\\CoreBundle\\Entity\\" . $entity);
-            $metadata->setIdGeneratorType(ClassMetadataInfo::GENERATOR_TYPE_NONE);
+            $metadata->setIdGeneratorType(ClassMetadata::GENERATOR_TYPE_NONE);
         }
     }
 
