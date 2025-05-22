@@ -1,8 +1,5 @@
 ProjetNormandie\ArticleBundle\Entity\Article:
   attributes:
-    slug:
-      groups:
-        - 'article:read'
     createdAt:
       groups:
         - 'article:read'

@@ -18,7 +18,7 @@ class ArticleTranslation
 
     #[ORM\ManyToOne(targetEntity: Article::class, inversedBy: 'translations')]
     #[ORM\JoinColumn(name: 'translatable_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
-    private ?Article $translatable = null;
+    private Article $translatable;
 
     #[ORM\Column(length: 5)]
     private string $locale;
@@ -41,12 +41,12 @@ class ArticleTranslation
         return $this->id;
     }
 
-    public function getTranslatable(): ?Article
+    public function getTranslatable(): Article
     {
         return $this->translatable;
     }
 
-    public function setTranslatable(?Article $translatable): void
+    public function setTranslatable(Article $translatable): void
     {
         $this->translatable = $translatable;
     }

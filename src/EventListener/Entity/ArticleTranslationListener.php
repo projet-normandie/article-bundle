@@ -14,13 +14,11 @@ class ArticleTranslationListener
     {
         $article = $translation->getTranslatable();
 
-        if ($article !== null) {
-            $em = $event->getObjectManager();
+        $em = $event->getObjectManager();
 
-            $article->setUpdatedAt(new DateTime());
+        $article->setUpdatedAt(new DateTime());
 
-            $em->persist($article);
-            $em->flush();
-        }
+        $em->persist($article);
+        $em->flush();
     }
 }

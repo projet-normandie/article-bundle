@@ -1,0 +1,50 @@
+breadcrumb:
+    link_article_list: 'Liste des Articles'
+    link_comment_list: 'Liste des Commentaires'
+
+article:
+    label: Article
+    list:
+        id: ID
+        title: Titre
+        author: Auteur
+        status: Statut
+        created_at: Créé le
+        published_at: Publié le
+    form:
+        id: ID
+        title: Titre
+        content: Texte
+        status: Statut
+        published_at: Publié le
+        updated_at: Modifié le
+    filter:
+        title: Titre
+        author: Auteur
+        status: Statut
+    show:
+        id: ID
+        title: Titre
+        content: Texte
+        status: Statut
+
+comment:
+    label: Commentaire
+    list:
+        id: ID
+        article: Article
+        user: Utilisateur
+        created_at: Créé le
+    form:
+        id: ID
+        article: Article
+        user: Utilisateur
+        content: Content
+    filter:
+        article: Article
+        user: Utilisateur
+    show:
+        id: ID
+        article: Article
+        user: Utilisateur
+        content: Content
