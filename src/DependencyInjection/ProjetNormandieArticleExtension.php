@@ -28,6 +28,9 @@ class ProjetNormandieArticleExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../../config'));
         $loader->load('services.yml');
-        $loader->load('admin.yml');
+        $bundles = $container->getParameter('kernel.bundles');
+        if (array_key_exists('SonataAdminBundle', $bundles)) {
+            $loader->load('sonata_admin.yml');
+        }
     }
 }

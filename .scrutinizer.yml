@@ -36,6 +36,10 @@ build:
     environment:
         php:
             version: '8.3.19'
+    dependencies:
+        before:
+            - composer require sonata-project/admin-bundle:^4.0
+            - composer require sonata-project/doctrine-orm-admin-bundle:^4.8
     nodes:
         analysis:
             tests:
