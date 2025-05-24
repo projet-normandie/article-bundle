@@ -40,6 +40,9 @@ class Article
 {
     use TimestampableEntity;
 
+    // FALLBACK language
+    private const string DEFAULT_LOCALE = 'en';
+
     #[Groups(['article:read'])]
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
@@ -71,7 +74,6 @@ class Article
         mappedBy: 'translatable',
         targetEntity: ArticleTranslation::class,
         cascade: ['persist', 'remove'],
-        fetch: 'EAGER',
         orphanRemoval: true,
         indexBy: 'locale'
     )]
@@ -96,12 +98,12 @@ class Article
 
     public function getDefaultTitle(): string
     {
-        return $this->getTitle('en') ?: 'Untitled';
+        return $this->getTitle(self::DEFAULT_LOCALE) ?: 'Untitled';
     }
 
     public function getDefaultContent(): string
     {
-        return $this->getContent('en') ?: '';
+        return $this->getContent(self::DEFAULT_LOCALE) ?: '';
     }
 
     public function setId(int $id): void
@@ -185,36 +187,81 @@ class Article
         return $this->translations;
     }
 
-    public function setTranslations(Collection $translations): void
+    public function setTranslations(Collection $translations): self
     {
         $this->translations = $translations;
+        return $this;
     }
 
-    public function addTranslation(ArticleTranslation $translation): void
+    public function addTranslation(ArticleTranslation $translation): self
     {
         if (!$this->translations->contains($translation)) {
             $translation->setTranslatable($this);
             $this->translations->set($translation->getLocale(), $translation);
         }
+
+        return $this;
     }
 
-    public function removeTranslation(ArticleTranslation $translation): void
+    public function removeTranslation(ArticleTranslation $translation): self
     {
-        $this->translations->removeElement($translation);
-    }
-
-    public function translate(?string $locale = null, bool $fallbackToDefault = true): ArticleTranslation
-    {
-        $locale = $locale ?: $this->currentLocale ?: 'en';
-
-        if (!$this->translations->containsKey($locale)) {
-            $translation = new ArticleTranslation();
-            $translation->setTranslatable($this);
-            $translation->setLocale($locale);
-            $this->translations->set($locale, $translation);
+        if ($this->translations->removeElement($translation)) {
+            $translation->setTranslatable(null);
         }
 
-        return $this->translations->get($locale);
+        return $this;
+    }
+
+    /**
+     * Retrieves a translation with intelligent fallback logic.
+     * Ensures content quality by checking for non-empty translations.
+     */
+    public function translate(?string $locale = null, bool $fallbackToDefault = true): ?ArticleTranslation
+    {
+        $locale = $locale ?: $this->currentLocale ?: self::DEFAULT_LOCALE;
+
+        // If translation exists for requested locale
+        if ($this->translations->containsKey($locale)) {
+            $translation = $this->translations->get($locale);
+            // Check that translation is not empty
+            if (!empty($translation->getTitle()) || !empty($translation->getContent())) {
+                return $translation;
+            }
+        }
+
+        // Fallback to default locale if enabled and different from requested locale
+        if ($fallbackToDefault && $locale !== self::DEFAULT_LOCALE && $this->translations->containsKey(self::DEFAULT_LOCALE)) {
+            $translation = $this->translations->get(self::DEFAULT_LOCALE);
+            if (!empty($translation->getTitle()) || !empty($translation->getContent())) {
+                return $translation;
+            }
+        }
+
+        // If no valid translation exists, return first non-empty available
+        foreach ($this->translations as $translation) {
+            if (!empty($translation->getTitle()) || !empty($translation->getContent())) {
+                return $translation;
+            }
+        }
+
+        // Last resort: return first translation even if empty
+        return $this->translations->first() ?: null;
+    }
+
+    /**
+     * Vérifie si une traduction existe pour une locale donnée
+     */
+    public function hasTranslation(string $locale): bool
+    {
+        return $this->translations->containsKey($locale);
+    }
+
+    /**
+     * Retourne toutes les locales disponibles pour cet article
+     */
+    public function getAvailableLocales(): array
+    {
+        return $this->translations->getKeys();
     }
 
     public function setCurrentLocale(string $locale): void
@@ -229,26 +276,45 @@ class Article
 
     public function setTitle(string $title, ?string $locale = null): void
     {
-        $this->translate($locale)->setTitle($title);
+        $locale = $locale ?: $this->currentLocale ?: self::DEFAULT_LOCALE;
+
+        if (!$this->translations->containsKey($locale)) {
+            $translation = new ArticleTranslation();
+            $translation->setTranslatable($this);
+            $translation->setLocale($locale);
+            $this->translations->set($locale, $translation);
+        }
+
+        $this->translations->get($locale)->setTitle($title);
     }
 
     #[Groups(['article:read'])]
     public function getTitle(?string $locale = null): ?string
     {
-        return $this->translate($locale)->getTitle();
+        $translation = $this->translate($locale);
+        return $translation ? $translation->getTitle() : null;
     }
 
     public function setContent(string $content, ?string $locale = null): void
     {
-        $this->translate($locale)->setContent($content);
+        $locale = $locale ?: $this->currentLocale ?: self::DEFAULT_LOCALE;
+
+        if (!$this->translations->containsKey($locale)) {
+            $translation = new ArticleTranslation();
+            $translation->setTranslatable($this);
+            $translation->setLocale($locale);
+            $this->translations->set($locale, $translation);
+        }
+
+        $this->translations->get($locale)->setContent($content);
     }
 
     #[Groups(['article:read'])]
     public function getContent(?string $locale = null): ?string
     {
-        return $this->translate($locale)->getContent();
+        $translation = $this->translate($locale);
+        return $translation?->getContent();
     }
-
 
     // Old methods for backward compatibility
     public function mergeNewTranslations(): void
