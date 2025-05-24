@@ -2,6 +2,14 @@ breadcrumb:
     link_article_list: 'Liste des Articles'
     link_comment_list: 'Liste des Commentaires'
 
+show:
+    group_article_label: 'Article'
+    group_comment_label: 'Commentaire'
+
+form:
+    group_article_label: 'Article'
+    group_comment_label: 'Commentaire'
+
 article:
     label: Article
     list:
