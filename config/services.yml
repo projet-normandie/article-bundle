@@ -10,9 +10,16 @@ services:
   ProjetNormandie\ArticleBundle\Doctrine\TranslationExtension:
     arguments:
       - '@request_stack'
+      - '%projet_normandie_article.default_locale%'
     tags:
       - { name: api_platform.doctrine.orm.query_extension.collection }
       - { name: api_platform.doctrine.orm.query_extension.item }
+
+  ProjetNormandie\ArticleBundle\EventSubscriber\ArticleLocaleSubscriber:
+    arguments:
+      - '%projet_normandie_article.supported_locales%'
+      - '%projet_normandie_article.default_locale%'
+
 
   pn.article.event.entity.article:
     class: ProjetNormandie\ArticleBundle\EventListener\Entity\ArticleListener
