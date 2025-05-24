@@ -187,29 +187,22 @@ class Article
         return $this->translations;
     }
 
-    public function setTranslations(Collection $translations): self
+    public function setTranslations(Collection $translations): void
     {
         $this->translations = $translations;
-        return $this;
     }
 
-    public function addTranslation(ArticleTranslation $translation): self
+    public function addTranslation(ArticleTranslation $translation): void
     {
         if (!$this->translations->contains($translation)) {
             $translation->setTranslatable($this);
             $this->translations->set($translation->getLocale(), $translation);
         }
-
-        return $this;
     }
 
-    public function removeTranslation(ArticleTranslation $translation): self
+    public function removeTranslation(ArticleTranslation $translation): void
     {
-        if ($this->translations->removeElement($translation)) {
-            $translation->setTranslatable(null);
-        }
-
-        return $this;
+        $this->translations->removeElement($translation);
     }
 
     /**
@@ -292,7 +285,7 @@ class Article
     public function getTitle(?string $locale = null): ?string
     {
         $translation = $this->translate($locale);
-        return $translation ? $translation->getTitle() : null;
+        return $translation?->getTitle();
     }
 
     public function setContent(string $content, ?string $locale = null): void
