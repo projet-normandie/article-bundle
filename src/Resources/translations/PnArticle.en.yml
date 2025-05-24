@@ -2,25 +2,60 @@ breadcrumb:
     link_article_list: 'Article List'
     link_comment_list: 'Comment List'
 
+show:
+    group_article_lab: 'Article'
+    group_comment: 'Comment'
+
 form:
-    group_label_article: 'Article'
-    group_label_comment: 'Comment'
+    group_article_label: 'Article'
+    group_comment_label: 'Comment'
+
+article:
+    label: Article
+    list:
+        id: ID
+        title: Title
+        author: Author
+        status: Status
+        created_at: Created at
+        published_at: Published at
+    form:
+        id: ID
+        title: Title
+        content: Content
+        status: Status
+        published_at: Published at
+        updated_at: Updated at
+    filter:
+        title: Title
+        author: Author
+        status: Status
+    show:
+        id: ID
+        title: Title
+        content: Content
+        status: Status
+
+comment:
+    label: Comment
+    list:
+        id: ID
+        article: Article
+        user: User
+        created_at: Created at
+    form:
+        id: ID
+        article: Article
+        user: User
+        content: Content
+    filter:
+        article: Article
+        user: User
+    show:
+        id: ID
+        article: Article
+        user: User
+        content: Content
 
 list:
     label__action: 'Action'
-
-show:
-    group_article: 'Article'
-    group_comment: 'Comment'
-
-label:
-    article: 'Article'
-    author: 'Author'
-    comment: 'Comment'
-    content: 'Text'
-    createdAt: 'Created at'
-    id: 'id'
-    publishedAt: 'Published at'
-    status: 'Status'
-    title: 'Title'
-    user: 'User'
