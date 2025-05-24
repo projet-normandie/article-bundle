@@ -23,7 +23,10 @@ use FOS\CKEditorBundle\Form\Type\CKEditorType;
 
 class ArticleAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'pna_article_admin';
+    protected function generateBaseRouteName(bool $isChildAdmin = false): string
+    {
+        return 'pna_article_admin';
+    }
 
     protected function configureRoutes(RouteCollectionInterface $collection): void
     {
