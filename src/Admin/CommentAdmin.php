@@ -19,7 +19,10 @@ use Sonata\AdminBundle\Form\Type\ModelListType;
 
 class CommentAdmin extends AbstractAdmin
 {
-    protected $baseRouteName = 'pna_comment_admin';
+    protected function generateBaseRouteName(bool $isChildAdmin = false): string
+    {
+        return 'pna_comment_admin';
+    }
 
     /**
      * @param RouteCollection $collection
