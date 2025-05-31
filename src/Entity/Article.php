@@ -13,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
+use ProjetNormandie\ArticleBundle\Filter\TranslationSearchFilter;
 use ProjetNormandie\ArticleBundle\Repository\ArticleRepository;
 use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
 use Symfony\Component\Serializer\Attribute\Groups;
@@ -36,6 +37,7 @@ use DateTime;
         'status' => 'exact',
     ]
 )]
+#[ApiFilter(TranslationSearchFilter::class)]
 class Article
 {
     use TimestampableEntity;
