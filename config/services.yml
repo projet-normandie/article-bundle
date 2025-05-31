@@ -17,9 +17,7 @@ services:
 
   ProjetNormandie\ArticleBundle\EventSubscriber\ArticleLocaleSubscriber:
     arguments:
-      - '%projet_normandie_article.supported_locales%'
-      - '%projet_normandie_article.default_locale%'
-
+      - '@ProjetNormandie\ArticleBundle\Service\LocaleResolver'
 
   pn.article.event.entity.article:
     class: ProjetNormandie\ArticleBundle\EventListener\Entity\ArticleListener
@@ -43,3 +41,15 @@ services:
     class: ProjetNormandie\ArticleBundle\Builder\ArticleBuilder
     arguments:
       - '@doctrine.orm.default_entity_manager'
+
+  ProjetNormandie\ArticleBundle\Filter\TranslationSearchFilter:
+    arguments:
+      - '@request_stack'
+      - '@ProjetNormandie\ArticleBundle\Service\LocaleResolver'
+    tags:
+      - { name: 'api_platform.filter' }
+
+  ProjetNormandie\ArticleBundle\Service\LocaleResolver:
+    arguments:
+      - '%projet_normandie_article.supported_locales%'
+      - '%projet_normandie_article.default_locale%'

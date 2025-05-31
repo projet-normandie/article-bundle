@@ -6,9 +6,9 @@ namespace ProjetNormandie\ArticleBundle\EventSubscriber;
 
 use ApiPlatform\Symfony\EventListener\EventPriorities;
 use ProjetNormandie\ArticleBundle\Entity\Article;
+use ProjetNormandie\ArticleBundle\Service\LocaleResolver;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpKernel\Event\ViewEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
@@ -18,15 +18,8 @@ use Symfony\Component\HttpKernel\KernelEvents;
  */
 class ArticleLocaleSubscriber implements EventSubscriberInterface
 {
-    private array $supportedLocales;
-    private string $defaultLocale;
-
-    public function __construct(
-        array $supportedLocales = ['en'],
-        string $defaultLocale = 'en'
-    ) {
-        $this->supportedLocales = $supportedLocales;
-        $this->defaultLocale = $defaultLocale;
+    public function __construct(private readonly LocaleResolver $localeResolver)
+    {
     }
 
 
@@ -57,7 +50,7 @@ class ArticleLocaleSubscriber implements EventSubscriberInterface
         }
 
         // Get preferred locale from HTTP_ACCEPT_LANGUAGE header
-        $locale = $this->getPreferredLocale($request);
+        $locale = $this->localeResolver->getPreferredLocale($request);
 
         // Set locale on one or more Article entities
         $this->applyLocaleToResult($result, $locale);
@@ -92,30 +85,6 @@ class ArticleLocaleSubscriber implements EventSubscriberInterface
         }
 
         return false;
-    }
-
-    /**
-     * Extract preferred locale from the HTTP_ACCEPT_LANGUAGE header
-     *
-     * @param Request $request The HTTP request
-     * @return string The preferred locale (defaulting to 'en')
-     */
-    private function getPreferredLocale(Request $request): string
-    {
-        // Check for HTTP_ACCEPT_LANGUAGE header
-        $acceptLanguage = $request->headers->get('Accept-Language');
-        if (!$acceptLanguage) {
-            return $this->defaultLocale; // Default to English
-        }
-
-        // Extract primary language code (fr-FR -> fr, en-US -> en, etc.)
-        $locale = substr($acceptLanguage, 0, 2);
-
-        // Only accept supported locales
-        if (in_array($locale, $this->supportedLocales, true)) {
-            return $locale;
-        }
-        return $this->defaultLocale;
     }
 
     /**
