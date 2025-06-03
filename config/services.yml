@@ -19,6 +19,13 @@ services:
     arguments:
       - '@ProjetNormandie\ArticleBundle\Service\LocaleResolver'
 
+  ProjetNormandie\ArticleBundle\State\CommentSecurityProcessor:
+    decorates: 'api_platform.doctrine.orm.state.persist_processor'
+    arguments:
+      - '@.inner'
+      - '@security.helper'
+      - '%kernel.environment%'
+
   pn.article.event.entity.article:
     class: ProjetNormandie\ArticleBundle\EventListener\Entity\ArticleListener
     arguments:
