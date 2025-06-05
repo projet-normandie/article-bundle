@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use ProjetNormandie\ArticleBundle\Builder\ArticleBuilder;
 use ProjetNormandie\ArticleBundle\Entity\Article;
 use ProjetNormandie\ArticleBundle\Tests\Fixtures\User;
-use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
+use ProjetNormandie\ArticleBundle\Enum\ArticleStatus;
 use Doctrine\ORM\EntityManagerInterface;
 use ProjetNormandie\ArticleBundle\Tests\Helper\TestUserTrait;
 

@@ -6,7 +6,7 @@ namespace ProjetNormandie\ArticleBundle\Builder;
 
 use Doctrine\ORM\EntityManagerInterface;
 use ProjetNormandie\ArticleBundle\Entity\Article;
-use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
+use ProjetNormandie\ArticleBundle\Enum\ArticleStatus;
 
 class ArticleBuilder
 {
