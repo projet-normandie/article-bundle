@@ -8,7 +8,7 @@ use PHPUnit\Framework\Attributes\Group;
 use PHPUnit\Framework\TestCase;
 use ProjetNormandie\ArticleBundle\Entity\Article;
 use ProjetNormandie\ArticleBundle\Entity\ArticleTranslation;
-use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
+use ProjetNormandie\ArticleBundle\Enum\ArticleStatus;
 
 #[Group('unit')]
 #[Group('entity')]
@@ -53,7 +53,7 @@ class ArticleTest extends TestCase
         $articleStatus = $this->article->getArticleStatus();
         $this->assertInstanceOf(ArticleStatus::class, $articleStatus);
         $this->assertTrue($articleStatus->isPublished());
-        $this->assertEquals(ArticleStatus::PUBLISHED, $articleStatus->getValue());
+        $this->assertEquals(ArticleStatus::PUBLISHED, $articleStatus);
     }
 
     public function testTranslationManagement(): void

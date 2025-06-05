@@ -8,7 +8,7 @@ use PHPUnit\Framework\TestCase;
 use ProjetNormandie\ArticleBundle\Entity\Article;
 use ProjetNormandie\ArticleBundle\Tests\Fixtures\User;
 use ProjetNormandie\ArticleBundle\EventListener\Entity\ArticleListener;
-use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
+use ProjetNormandie\ArticleBundle\Enum\ArticleStatus;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Doctrine\ORM\Event\PreUpdateEventArgs;

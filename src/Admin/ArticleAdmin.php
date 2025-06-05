@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace ProjetNormandie\ArticleBundle\Admin;
 
 use A2lix\TranslationFormBundle\Form\Type\TranslationsType;
-use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
+use ProjetNormandie\ArticleBundle\Enum\ArticleStatus;
 use ProjetNormandie\ArticleBundle\Form\Type\RichTextEditorType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ProxyQueryInterface;
@@ -16,10 +16,9 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Route\RouteCollectionInterface;
 use Sonata\DoctrineORMAdminBundle\Filter\ModelFilter;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use FOS\CKEditorBundle\Form\Type\CKEditorType;
+use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 class ArticleAdmin extends AbstractAdmin
 {
@@ -57,14 +56,14 @@ class ArticleAdmin extends AbstractAdmin
                 'required' => false,
                 'disabled' => true
             ])
-            ->add(
-                'status',
-                ChoiceType::class,
-                [
-                    'label' => 'article.form.status',
-                    'choices' => ArticleStatus::getStatusChoices(),
-                ]
-            )
+            ->add('status', EnumType::class, [
+                'label' => 'article.form.status',
+                'required' => true,
+                'class' => ArticleStatus::class,
+                'choice_label' => fn(ArticleStatus $status) => $status->value,
+                'expanded' => false,
+                'multiple' => false,
+            ])
             ->add('publishedAt', DateTimeType::class, [
                 'label' => 'article.form.published_at',
                 'required' => false,
@@ -106,15 +105,7 @@ class ArticleAdmin extends AbstractAdmin
         $list->addIdentifier('id', null, ['label' => 'article.list.id'])
             ->add('getDefaultTitle', null, ['label' => 'article.list.title'])
             ->add('author', null, ['label' => 'article.list.author'])
-            ->add(
-                'status',
-                'choice',
-                [
-                    'label' => 'article.list.status',
-                    'editable' => false,
-                    'choices' => ArticleStatus::getStatusChoices(),
-                ]
-            )
+            ->add('status', null, ['label' => 'article.list.status'])
             ->add('createdAt', null, ['label' => 'article.list.created_at'])
             ->add('publishedAt', 'datetime', ['label' => 'article.list.published_at'])
             ->add('_action', 'actions', [
