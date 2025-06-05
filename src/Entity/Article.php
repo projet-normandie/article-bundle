@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Timestampable\Traits\TimestampableEntity;
 use ProjetNormandie\ArticleBundle\Filter\TranslationSearchFilter;
 use ProjetNormandie\ArticleBundle\Repository\ArticleRepository;
-use ProjetNormandie\ArticleBundle\ValueObject\ArticleStatus;
+use ProjetNormandie\ArticleBundle\Enum\ArticleStatus;
 use Symfony\Component\Serializer\Attribute\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use DateTime;
@@ -49,8 +49,8 @@ class Article
     #[ORM\Id, ORM\Column, ORM\GeneratedValue]
     private ?int $id = null;
 
-    #[ORM\Column(length: 30, nullable: false)]
-    private string $status = ArticleStatus::UNDER_CONSTRUCTION;
+    #[ORM\Column(type: 'string', enumType: ArticleStatus::class)]
+    private ArticleStatus $status = ArticleStatus::UNDER_CONSTRUCTION;
 
     #[Groups(['article:read'])]
     #[ORM\Column(nullable: false, options: ['default' => 0])]
@@ -118,19 +118,19 @@ class Article
         return $this->id;
     }
 
-    public function setStatus(string $status): void
+    public function setStatus(ArticleStatus $status): void
     {
         $this->status = $status;
     }
 
-    public function getStatus(): string
+    public function getStatus(): ArticleStatus
     {
         return $this->status;
     }
 
     public function getArticleStatus(): ArticleStatus
     {
-        return new ArticleStatus($this->status);
+        return $this->status;
     }
 
     public function setNbComment(int $nbComment): void
